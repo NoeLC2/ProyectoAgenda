@@ -2,7 +2,7 @@ package lectores;
 
 import java.io.File;
 
-public class LecturaConfig {
+public class LectorConfig {
 	File config = new File("config.txt");
 	
 }
