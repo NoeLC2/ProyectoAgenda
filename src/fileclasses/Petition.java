@@ -1,8 +1,8 @@
-package clasesarchivos;
+package fileclasses;
 
 import java.time.LocalDate;
 
-public class Peticiones {
+public class Petition {
     private String activity;
     private String room;
     private LocalDate startDate;
@@ -11,7 +11,7 @@ public class Peticiones {
     private String schedule;
 
 
-    public Peticiones(String activity, String room, LocalDate startDate, LocalDate endDate, String weekDays, String schedule) {
+    public Petition(String activity, String room, LocalDate startDate, LocalDate endDate, String weekDays, String schedule) {
         this.activity = activity;
         this.room = room;
         this.startDate = startDate;
