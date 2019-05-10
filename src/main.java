@@ -10,5 +10,7 @@ public class main {
         System.out.println(petitions);
 
         OutputHTML.generateHTML();
+
+        //En el main ejecutaríamos el escritor de html y el comprobador principal de excepciones
     }
 }
