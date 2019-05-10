@@ -10,6 +10,17 @@ public class Petition {
     private String weekDays;
     private String schedule;
 
+    @Override
+    public String toString() {
+        return "Petition{" +
+                "activity='" + activity + '\'' +
+                ", room='" + room + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", weekDays='" + weekDays + '\'' +
+                ", schedule='" + schedule + '\'' +
+                '}';
+    }
 
     public Petition(String activity, String room, LocalDate startDate, LocalDate endDate, String weekDays, String schedule) {
         this.activity = activity;

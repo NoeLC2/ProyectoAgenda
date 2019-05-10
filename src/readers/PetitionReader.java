@@ -2,20 +2,52 @@ package readers;
 
 import fileclasses.Petition;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.Scanner;
 
 public class PetitionReader {
-    public List<Petition> getPetitions(){
-        String fileName = "peticions.txt";
-        try {
-            Stream<String> stream = Files.lines(Paths.get(fileName))
-        } catch (IOException e) {
+    public static List<Petition> getPetitions(){
+        //Por comodidad usamos la misma estructura que el lector de coches que hicimos de ejemplo
+
+        List<Petition> petitions = Collections.emptyList();
+
+        File file = new File("peticions.txt");
+
+        try(Scanner sc = new Scanner(file)) {
+            petitions = new ArrayList<>();
+            while(sc.hasNextLine()) {
+                String line = sc.nextLine();
+                Petition petition = createPetition(line);
+                petitions.add(petition);
+            }
+
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        });
-        return null;
+        }
+
+        return petitions;
+    }
+
+    private static Petition createPetition(String line) {
+
+        final byte ACTIVITY=0, ROOM=1, STARTDATE=2, ENDDATE=3, WEEKDAYS=4, SCHEDULE=5;
+
+        String[] dataArray = line.split(" ");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        String activity = dataArray[ACTIVITY];
+        String room = dataArray[ROOM];
+        LocalDate startDate = LocalDate.parse(dataArray[STARTDATE], formatter);
+        LocalDate endDate = LocalDate.parse(dataArray[ENDDATE], formatter);
+        String weekDays = dataArray[WEEKDAYS];
+        String schedule = dataArray[SCHEDULE];
+
+        return new Petition(activity, room, startDate, endDate, weekDays, schedule);
     }
 }
