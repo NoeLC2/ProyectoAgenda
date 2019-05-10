@@ -1,8 +1,12 @@
 package lectores;
 
-import java.io.File;
+import clasesarchivos.Peticiones;
 
 public class LectorConfig {
-	File config = new File("config.txt");
+	public List<Peticiones> getPeticiones(String fichero) {
+
+		return null;
+	}
+
 	
 }
