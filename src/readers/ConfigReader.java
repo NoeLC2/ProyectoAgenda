@@ -1,21 +1,23 @@
 package readers;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 import fileclasses.Config;
 
 public class ConfigReader {
 	
-	public static List<Congig> getCongig(){
+	public static List<Config> getConfig(){
 		
 		List<Config> config = Collections.emptyList();
 		
 		File file = new File("config.txt");
 		
-		try(Scanner sc = newScanner(file)){
+		try(Scanner sc = new Scanner(file)) {
 			config = new ArrayList<>();
 			while(sc.hasNextLine()) {
 				String line = sc.nextLine();

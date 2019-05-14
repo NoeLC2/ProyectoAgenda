@@ -13,7 +13,8 @@ import java.util.Scanner;
 
 public class PetitionReader {
     public static List<Petition> getPetitions(){
-        //Por comodidad usamos la misma estructura que el lector de coches que hicimos de ejemplo
+        //Por comodidad usamos la misma estructura que el lector 
+    	//de coches que hicimos de ejemplo
 
         List<Petition> petitions = Collections.emptyList();
 
