@@ -20,9 +20,9 @@ public class OutputHTML {
         sb.append("</title>");
         sb.append("</head>");
         sb.append("<body>");
-        for(int i=0;i<4;i++){
+        for(int m=0;m<4;m++){
             sb.append("<table border=\"1\" style=\"width:100%\"><tr>");
-            for(i=0;i<weekDays.length;i++){
+            for(int i=0;i<weekDays.length;i++){
                 sb.append("<th>");
                 sb.append(weekDays[i]);
                 sb.append("</th>");
@@ -30,13 +30,20 @@ public class OutputHTML {
             for(int j=0;j<24;j++){
                 sb.append("<tr>");
                 for(int k=0;k<weekDays.length;k++){
-                    sb.append("<td>");
-                    sb.append("foobar");
+                    sb.append("<td");
+                    if(m*k*j % 4 == 0){
+                        sb.append(" bgcolor=\"red\"");
+                    }
+                    if(m*k*j % 3 == 0){
+                        sb.append(" bgcolor=\"green\"");
+                    }
+                    sb.append(">");
+                    sb.append(weekDays[k] + " " + m*k*j);
                     sb.append("</td>");
                 }
                 sb.append("</tr>");
             }
-            sb.append("</table>");
+            sb.append("</table></br>");
         }
 
         sb.append("</body>");
