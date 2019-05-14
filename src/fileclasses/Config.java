@@ -21,11 +21,11 @@ public class Config {
 			return month;
 		}
 
-		public String getIncomingLeng() {
+		public String getInputLang() {
 			return inputLang;
 		}
 
-		public String getOutgoinLeng() {
+		public String getOutputLang() {
 			return outputLang;
 		}
 }
