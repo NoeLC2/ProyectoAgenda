@@ -11,6 +11,7 @@ import java.util.List;
 public class OutputHTML {
     public static void generateHTML(){
         List<Petition> petitions = PetitionReader.getPetitions();
+        
         StringBuilder sb = new StringBuilder();
         sb.append("<html>");
         sb.append("<head>");

@@ -11,38 +11,28 @@ import fileclasses.Config;
 
 public class ConfigReader {
 	
-	public static List<Config> getConfig(){
-		
-		List<Config> config = Collections.emptyList();
+	public static Config getConfig(){
+
+		Config config = null;
 		
 		File file = new File("config.txt");
 		
 		try(Scanner sc = new Scanner(file)) {
-			config = new ArrayList<>();
-			while(sc.hasNextLine()) {
-				String line = sc.nextLine();
-				Config config = createConfig(line);
-				config.add(config);
-			}
+			String line1 = sc.nextLine();
+			String[] dataArray1 = line1.split(" ");
+			int year = Integer.valueOf(dataArray1[0]);
+			int month = Integer.valueOf(dataArray1[1]);
+
+			String line2 = sc.nextLine();
+			String[] dataArray2 = line1.split(" ");
+			String inputLang = dataArray2[0];
+			String outputLang = dataArray2[1];
+			config = new Config(year,month,inputLang,outputLang);
+
 		}catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 		return config;
-	}
-	
-	private static Config createConfig(String line) {
-		
-		
-		final byte YEAR = 0, MONTH = 1, INCOMINGLENG = 2, OUTGOINGLENG = 3;
-		
-		String[] dataArray = line.split(" ");
-				
-		int year = Integer.valueOf(dataArray[YEAR]);
-		int month = Integer.valueOf(dataArray[MONTH]);
-		String incomingLeng = dataArray[INCOMINGLENG];
-		String outgoinLeng = dataArray[OUTGOINGLENG];
-		
-		return new Config(year, month, incomingLeng, outgoinLeng);
 	}
 		
 }

@@ -3,14 +3,14 @@ package fileclasses;
 public class Config {
 		private int year;
 		private int month;
-		private String incomingLeng; 
-		private String outgoinLeng;
+		private String inputLang;
+		private String outputLang;
 		
 		public Config(int year, int month, String incomingLeng, String outgoinLeng) {
 	        this.year = year;
 	        this.month = month;
-	        this.incomingLeng = incomingLeng;
-	        this.outgoinLeng = outgoinLeng;
+	        this.inputLang = incomingLeng;
+	        this.outputLang = outgoinLeng;
 	    }
 
 		public int getYear() {
@@ -22,10 +22,10 @@ public class Config {
 		}
 
 		public String getIncomingLeng() {
-			return incomingLeng;
+			return inputLang;
 		}
 
 		public String getOutgoinLeng() {
-			return outgoinLeng;
+			return outputLang;
 		}
 }
