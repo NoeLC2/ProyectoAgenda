@@ -1,6 +1,7 @@
 package readers;
 
 import fileclasses.Petition;
+import output.OutputLogIncidents;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -44,11 +45,17 @@ public class PetitionReader {
 
         String activity = dataArray[ACTIVITY];
         String room = dataArray[ROOM];
+
+        //Throw exception in case the date format is incorrect
         LocalDate startDate = LocalDate.parse(dataArray[STARTDATE], formatter);
         LocalDate endDate = LocalDate.parse(dataArray[ENDDATE], formatter);
         String weekDays = dataArray[WEEKDAYS];
         String schedule = dataArray[SCHEDULE];
+        String[] scheduleArray = schedule.split("_");
+        if (scheduleArray.length > 5){
+            OutputLogIncidents.writeConflict("TooManyTimePeriods");
+        }
 
-        return new Petition(activity, room, startDate, endDate, weekDays, schedule);
+        return new Petition(activity, room, startDate, endDate, weekDays, scheduleArray);
     }
 }

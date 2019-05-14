@@ -8,8 +8,9 @@ public class Petition {
     private LocalDate startDate;
     private LocalDate endDate;
     private String weekDays;
-    private String schedule;
+    private String[] schedule;
 
+    //This toString should be deleted in the final version since it's not meant to be used.
     @Override
     public String toString() {
         return "Petition{" +
@@ -22,7 +23,7 @@ public class Petition {
                 '}';
     }
 
-    public Petition(String activity, String room, LocalDate startDate, LocalDate endDate, String weekDays, String schedule) {
+    public Petition(String activity, String room, LocalDate startDate, LocalDate endDate, String weekDays, String[] schedule) {
         this.activity = activity;
         this.room = room;
         this.startDate = startDate;
@@ -48,7 +49,7 @@ public class Petition {
         return weekDays;
     }
 
-    public String getSchedule() {
+    public String[] getSchedule() {
         return schedule;
     }
 }
