@@ -1,5 +1,6 @@
 package ProcessPetitions;
 
+import fileclasses.Config;
 import fileclasses.Petition;
 import fileclasses.ProcessedPetition;
 
@@ -8,23 +9,34 @@ import java.time.LocalDate;
 import java.time.Month;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class ProcessPetitionsMonth {
-    public static ProcessedPetition getProcessedPetitions(Month month, Petition petition){
+    public static ProcessedPetition getProcessedPetitions(Config config, Petition petition){
+        Month month = config.getMonth();
         List<LocalDate> allDatesBetween = getDatesBetween(petition.getStartDate(), petition.getEndDate());
         List<DayOfWeek> weekDays = ConvertWeekDays.convert(petition);
 
-        for(LocalDate date : allDatesBetween){
+        Iterator<LocalDate> it = allDatesBetween.iterator();
+        while(it.hasNext()){
+            if(it.next().getMonth()!=month) {
+                it.remove();
+            }
+            else if(!weekDays.contains(it.next().getDayOfWeek())){
+                it.remove();
+            }
+        }
+        /*for(LocalDate date : allDatesBetween){
             if(date.getMonth()!=month) {
                 allDatesBetween.remove(date);
             }
             else if(!weekDays.contains(date.getDayOfWeek())){
                 allDatesBetween.remove(date);
             }
-        }
+        }*/
 
         if(allDatesBetween.isEmpty()){
             return null;
@@ -40,11 +52,19 @@ public class ProcessPetitionsMonth {
 
     public static List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate) {
         //Stackoverflow
-        long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate);
+        List<LocalDate> totalDates = new ArrayList<>();
+        while (!startDate.isBefore(endDate)) {
+            totalDates.add(startDate);
+            startDate = startDate.plusDays(1);
+        }
+
+        return totalDates;
+
+        /*long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate);
         return IntStream.iterate(0, i -> i + 1)
                 .limit(numOfDaysBetween)
                 .mapToObj(i -> startDate.plusDays(i))
-                .collect(Collectors.toList());
+                .collect(Collectors.toList());*/
     }
 
     public static List<Integer> getSchedule(Petition petition){
