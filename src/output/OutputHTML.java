@@ -1,26 +1,37 @@
 package output;
 
+import ProcessPetitions.CreateArrayPetitions;
+import fileclasses.Config;
 import fileclasses.Petition;
+import fileclasses.ProcessedPetition;
 import readers.PetitionReader;
 
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.YearMonth;
+import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 public class OutputHTML {
-    public static void generateHTML(){
+    public static void generateHTML(String room, List<ProcessedPetition> processedPetitions, Config config){
+
+        //String[][] arrayPetitions = CreateArrayPetitions.getArray(processedPetitions);
+        String[][] arrayPetitions = new String[31][24];
+        for(int i = 0; i<30; i++){
+            if(i%3==0){
+                arrayPetitions[i][5]+= i;
+            }
+        }
+        int month = config.getMonth().getValue();
+        int year = config.getYear().getValue();
 
         List<Petition> petitions = PetitionReader.getPetitions();
 
-        YearMonth yearMonthObject = YearMonth.of(2019, 05);
+        YearMonth yearMonthObject = YearMonth.of(year, month);
         int daysInMonth = yearMonthObject.lengthOfMonth();
-        LocalDate localDate = LocalDate.of(2019, 05, 01);
-        LocalDate localDate2 = LocalDate.of(2019, 06, 01);
+        LocalDate localDate = LocalDate.of(year, month, 01);
+        LocalDate localDate2 = LocalDate.of(year, month, 01);
         java.time.DayOfWeek dayWeek = localDate.getDayOfWeek();
 
 
@@ -56,7 +67,7 @@ public class OutputHTML {
                     }
                     sb.append(">");
                     //meter un if que compruebe si day es igual a uno de los days
-                    sb.append(day);
+                    sb.append(arrayPetitions[day][j]);
                     sb.append("</td>");
                     day++;
                 }

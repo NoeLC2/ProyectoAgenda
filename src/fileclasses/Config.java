@@ -1,23 +1,26 @@
 package fileclasses;
 
+import java.time.Month;
+import java.time.Year;
+
 public class Config {
-		private int year;
-		private int month;
+		private Year year;
+		private Month month;
 		private String inputLang;
 		private String outputLang;
 		
-		public Config(int year, int month, String incomingLeng, String outgoinLeng) {
+		public Config(Year year, Month month, String incomingLeng, String outgoinLeng) {
 	        this.year = year;
 	        this.month = month;
 	        this.inputLang = incomingLeng;
 	        this.outputLang = outgoinLeng;
 	    }
 
-		public int getYear() {
+		public Year getYear() {
 			return year;
 		}
 
-		public int getMonth() {
+		public Month getMonth() {
 			return month;
 		}
 

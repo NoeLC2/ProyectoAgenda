@@ -2,6 +2,8 @@ package readers;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.time.Month;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -20,8 +22,8 @@ public class ConfigReader {
 		try(Scanner sc = new Scanner(file)) {
 			String line1 = sc.nextLine();
 			String[] dataArray1 = line1.split(" ");
-			int year = Integer.valueOf(dataArray1[0]);
-			int month = Integer.valueOf(dataArray1[1]);
+			Year year = Year.of(Integer.parseInt(dataArray1[0]));
+			Month month = Month.of(Integer.parseInt(dataArray1[1]));
 
 			String line2 = sc.nextLine();
 			String[] dataArray2 = line1.split(" ");
