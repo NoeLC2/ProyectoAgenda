@@ -22,7 +22,7 @@ public class Petition {
                 ", schedule='" + schedule + '\'' +
                 '}';
     }
-
+    public Petition(){}
     public Petition(String activity, String room, LocalDate startDate, LocalDate endDate, String weekDays, String[] schedule) {
         this.activity = activity;
         this.room = room;
@@ -30,6 +30,11 @@ public class Petition {
         this.endDate = endDate;
         this.weekDays = weekDays;
         this.schedule = schedule;
+    }
+
+    public Petition(String activity, String room) {
+        this.activity = activity;
+        this.room = room;
     }
 
     public String getActivity() {
