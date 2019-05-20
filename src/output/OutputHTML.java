@@ -55,6 +55,7 @@ public class OutputHTML {
                         sb.append(" bgcolor=\"gray\"");
                     }
                     sb.append(">");
+                    //meter un if que compruebe si day es igual a uno de los days
                     sb.append(day);
                     sb.append("</td>");
                     day++;
