@@ -15,8 +15,8 @@ public class InternationalReader {
 			String line1 = sc.nextLine();
 			String[] result = line1.split(";");
 			int id = Integer.valueOf(result[0]);
-			String value1 = resutl[1];
-			System.out.println(result);
+			String value1 = line1[1];
+		
 			
 			String line2 = sc.nextLine();
 			String[] result2 = line2.split(";");
