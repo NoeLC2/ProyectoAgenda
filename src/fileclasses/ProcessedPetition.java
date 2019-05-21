@@ -14,7 +14,7 @@ public class ProcessedPetition extends Petition{
         this.hours = hours;
     }
 
-    public List<LocalDate> getDaysMoth() {
+    public List<LocalDate> getDaysMonth() {
         return daysMoth;
     }
 

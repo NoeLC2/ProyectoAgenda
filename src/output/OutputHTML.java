@@ -16,13 +16,13 @@ import java.util.List;
 public class OutputHTML {
     public static void generateHTML(String room, List<ProcessedPetition> processedPetitions, Config config){
 
-        //String[][] arrayPetitions = CreateArrayPetitions.getArray(processedPetitions);
-        String[][] arrayPetitions = new String[31][24];
+        String[][] arrayPetitions = CreateArrayPetitions.getArray(processedPetitions);
+        /*String[][] arrayPetitions = new String[31][24];
         for(int i = 0; i<30; i++){
             if(i%3==0){
                 arrayPetitions[i][5]+= i;
             }
-        }
+        }*/
         int month = config.getMonth().getValue();
         int year = config.getYear().getValue();
 
@@ -31,7 +31,7 @@ public class OutputHTML {
         YearMonth yearMonthObject = YearMonth.of(year, month);
         int daysInMonth = yearMonthObject.lengthOfMonth();
         LocalDate localDate = LocalDate.of(year, month, 01);
-        LocalDate localDate2 = LocalDate.of(year, month, 01);
+        LocalDate localDate2 = LocalDate.of(year, month+1, 01);
         java.time.DayOfWeek dayWeek = localDate.getDayOfWeek();
 
 
@@ -67,7 +67,9 @@ public class OutputHTML {
                     }
                     sb.append(">");
                     //meter un if que compruebe si day es igual a uno de los days
-                    sb.append(arrayPetitions[day][j]);
+                    if(day>0) {
+                        sb.append(arrayPetitions[day-1][j]);
+                    }
                     sb.append("</td>");
                     day++;
                 }

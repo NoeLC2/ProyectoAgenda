@@ -7,6 +7,7 @@ import readers.PetitionReader;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class ConvertWeekDays {
@@ -21,9 +22,9 @@ public class ConvertWeekDays {
         String[] weekDaysNames = {"Dilluns","Dimarts","Dimecres","Dijous","Divendres","Dissabte","Diumenge"};
 
         String[] weekDaysArray = weekDays.split("");
-        for(String weekDay : weekDaysArray){
-            int i = 0;
-            if(abbreviations[i]==weekDay){
+        int i =0;
+        for(String abbreviation : abbreviations){
+            if(Arrays.stream(weekDaysArray).anyMatch(abbreviation::equals)){
                 arrayProcessedDays.add(DayOfWeek.of(i+1));
             }
             i++;

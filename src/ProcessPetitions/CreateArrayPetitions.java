@@ -8,12 +8,11 @@ import java.util.List;
 public class CreateArrayPetitions {
     public static String[][] getArray(List<ProcessedPetition> processedPetitions){
         String[][] arraySchedules = new String[31][24];
-        for(ProcessedPetition petition :processedPetitions){
-            List<LocalDate> daysMonth = petition.getDaysMoth();
+        for(ProcessedPetition petition : processedPetitions){
+            List<LocalDate> daysMonth = petition.getDaysMonth();
             for(LocalDate day : daysMonth){
                 List<Integer> hours = petition.getHours();
                 for(Integer hour : hours){
-
                     arraySchedules[day.getDayOfMonth()-1][hour] = petition.getActivity();
                 }
             }

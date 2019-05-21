@@ -54,8 +54,13 @@ public class PetitionReader {
         String[] scheduleArray = schedule.split("_");
         if (scheduleArray.length > 5){
             OutputLogIncidents.writeConflict("TooManyTimePeriods");
+            return null;
+        } else if(endDate.isBefore(endDate)){
+            //OutputLogIncidents.writeConflict("fgfgfg");
+            return null;
         }
-
-        return new Petition(activity, room, startDate, endDate, weekDays, scheduleArray);
+        else {
+            return new Petition(activity, room, startDate, endDate, weekDays, scheduleArray);
+        }
     }
 }

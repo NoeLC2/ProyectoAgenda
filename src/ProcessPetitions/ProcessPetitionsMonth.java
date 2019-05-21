@@ -20,13 +20,13 @@ public class ProcessPetitionsMonth {
         List<LocalDate> allDatesBetween = getDatesBetween(petition.getStartDate(), petition.getEndDate());
         List<DayOfWeek> weekDays = ConvertWeekDays.convert(petition);
 
-        Iterator<LocalDate> it = allDatesBetween.iterator();
-        while(it.hasNext()){
-            if(it.next().getMonth()!=month) {
-                it.remove();
+        for (Iterator<LocalDate> iter = allDatesBetween.listIterator(); iter.hasNext(); ) {
+            LocalDate date = iter.next();
+            if(date.getMonth() != month){
+                iter.remove();
             }
-            else if(!weekDays.contains(it.next().getDayOfWeek())){
-                it.remove();
+            else if(!weekDays.contains(date.getDayOfWeek())){
+                iter.remove();
             }
         }
         /*for(LocalDate date : allDatesBetween){
@@ -53,7 +53,7 @@ public class ProcessPetitionsMonth {
     public static List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate) {
         //Stackoverflow
         List<LocalDate> totalDates = new ArrayList<>();
-        while (!startDate.isBefore(endDate)) {
+        while (startDate.isBefore(endDate)) {
             totalDates.add(startDate);
             startDate = startDate.plusDays(1);
         }
