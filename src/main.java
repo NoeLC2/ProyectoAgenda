@@ -2,33 +2,44 @@ import ProcessPetitions.ConvertWeekDays;
 import ProcessPetitions.CreateArrayPetitions;
 import ProcessPetitions.ProcessPetitionsMonth;
 import fileclasses.Config;
+import fileclasses.International;
 import fileclasses.Petition;
 import fileclasses.ProcessedPetition;
 import output.OutputHTML;
 import readers.ConfigReader;
+import readers.InternationalReader;
 import readers.PetitionReader;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class main {
     public static void main(String[] args) {
         List<Petition> petitions = PetitionReader.getPetitions();
         //System.out.println(petitions);
         Config config = ConfigReader.getConfig();
+        International international = InternationalReader.getInternacional();
         List<ProcessedPetition> processedPetitions = new ArrayList<>();
-        processedPetitions.add(ProcessPetitionsMonth.getProcessedPetitions(config, petitions.get(14)));
-        /*for (Petition petition: petitions){
+        //processedPetitions.add(ProcessPetitionsMonth.getProcessedPetitions(config, petitions.get(14)));
+
+        for (Petition petition: petitions){
             if(ProcessPetitionsMonth.getProcessedPetitions(config, petition) != null) {
                 processedPetitions.add(ProcessPetitionsMonth.getProcessedPetitions(config, petition));
             }
-        }*/
-        OutputHTML.generateHTML("lol", processedPetitions, config);
+        }
+
+        Set<String> roomsAsSet = new HashSet<String>();
+
+        for (Petition p : petitions) {
+            roomsAsSet.add(p.getRoom());
+        }
+
+        roomsAsSet.forEach((e) -> { OutputHTML.generateHTML((e), international, processedPetitions, config); });
+
+        //OutputHTML.generateHTML(international, processedPetitions, config);
 
         /*ProcessedPetition pp = ProcessPetitionsMonth.getProcessedPetitions(config, petitions.get(14));
         List<DayOfWeek> weekDays = ConvertWeekDays.convert(petitions.get(8));
