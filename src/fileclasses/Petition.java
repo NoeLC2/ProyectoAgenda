@@ -32,11 +32,6 @@ public class Petition {
         this.schedule = schedule;
     }
 
-    public Petition(String activity, String room) {
-        this.activity = activity;
-        this.room = room;
-    }
-
     public String getActivity() {
         return activity;
     }

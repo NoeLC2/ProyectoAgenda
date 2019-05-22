@@ -8,8 +8,8 @@ public class ProcessedPetition extends Petition{
     private List<LocalDate> daysMoth;
     private List<Integer> hours;
 
-    public ProcessedPetition(String activity, String room, List<LocalDate> daysMoth, List<Integer> hours) {
-        super(activity, room);
+    public ProcessedPetition(String activity, String room, LocalDate startDate, LocalDate endDate, String weekDays, String[] schedule, List<LocalDate> daysMoth, List<Integer> hours) {
+        super(activity, room, startDate, endDate, weekDays, schedule);
         this.daysMoth = daysMoth;
         this.hours = hours;
     }

@@ -20,9 +20,9 @@ import java.util.List;
 import java.util.Locale;
 
 public class OutputHTML {
-    public static void generateHTML(String sala, International international, List<ProcessedPetition> processedPetitions, Config config){
+    public static void generateHTML(String room, International international, List<ProcessedPetition> processedPetitions, Config config){
 
-        String[][] arrayPetitions = CreateArrayPetitions.getArray(processedPetitions);
+        String[][] arrayPetitions = CreateArrayPetitions.getArray(processedPetitions, config, international);
         /*String[][] arrayPetitions = new String[31][24];
         for(int i = 0; i<30; i++){
             if(i%3==0){
@@ -32,23 +32,18 @@ public class OutputHTML {
         int month = config.getMonth().getValue();
         int year = config.getYear().getValue();
 
-        List<Petition> petitions = PetitionReader.getPetitions();
+        YearMonth yearMonth = YearMonth.of(year, month);
+        int daysInMonth = yearMonth.lengthOfMonth();
 
-        YearMonth yearMonthObject = YearMonth.of(year, month);
-        int daysInMonth = yearMonthObject.lengthOfMonth();
         //muy cutre
-        LocalDate localDate = null;
-        LocalDate localDate2 = null;
-        if (month !=12) {
-            localDate = LocalDate.of(year, month, 01);
-            localDate2 = LocalDate.of(year, month + 1, 01);
-        } else{
-            localDate = LocalDate.of(year, month, 01);
-            localDate2 = LocalDate.of(year+1, 01, 01);
-        }
+        LocalDate localDate = LocalDate.of(year, month, 01);
+        LocalDate localDate2 =  LocalDate.of(year, month, 01).plusMonths(1);
+
         java.time.DayOfWeek dayWeek = localDate.getDayOfWeek();
 
 
+        //We need two different day counters because it's easier to deal with th and td separately
+        //Looking back, this could have been implemented in a better way
         int day = 2-dayWeek.getValue();
         int day2 = day;
 
@@ -60,52 +55,54 @@ public class OutputHTML {
         StringBuilder sb = new StringBuilder();
         sb.append("<html>");
         sb.append("<head>");
-        sb.append("<title>Title Of the page");
+        sb.append("<title>" + international.getTitle() + " " + room + " " + international.getMonths()[month-1] + " " + year);
         sb.append("</title>");
         sb.append("<style>td{text-align: center; vertical-align: middle;}</style>");
         sb.append("</head>");
         sb.append("<body>");
-        sb.append("<h1 align=\"center\">" + sala + "</h1>");
+        sb.append("<h1 align=\"center\">" + room + "</h1>");
         sb.append("<h1 align=\"center\">" + international.getTitle() + " " + international.getMonths()[month-1] + " " + year + "</h1>");
         for(int m=0;m<=numberOfWeeks;m++){
-            sb.append("<table border=\"1\" style=\"width:100%\"><tr>");
+            sb.append("<table width=\"100%\" border=\"1\" style=\"width:100%\"><tr>");
             for(int i=-1;i<weekDays.length;i++){
                 sb.append("<th>");
                 if(i==-1){
-                    LocalDate date = LocalDate.of(year, month, day+6);
+                    LocalDate date = LocalDate.of(year, month, 1);
                     TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
                     int weekNumber = date.get(woy);
                     sb.append(international.getTimeWords()[2] + " " +  weekNumber);
-                    sb.append("</td>");
-                } else{
+                } else if(day2<=0 || day2>daysInMonth){
+                    sb.append(weekDays[i] + "   ");
+                    day2++;
+                }else{
                     sb.append(weekDays[i] + " " + day2);
+                    day2++;
                 }
 
                 sb.append("</th>");
-                day2++;
             }
             for(int j=0;j<24;j++){
                 sb.append("<tr>");
                 for(int k=-1;k<weekDays.length;k++){
                     if(k==-1){
-                        sb.append("<td>");
+                        sb.append("<td width=\"12.5%\">");
                         sb.append(j + "-" + (j+1) + "h");
                         sb.append("</td>");
                     } else {
-                        sb.append("<td");
-                        if(day>0 && arrayPetitions[day - 1][j]==null){
-                            sb.append(" bgcolor=\"lightgreen\"");
+                        sb.append("<td width=\"12.5%\"");
+                        if (day <= 0 || day > daysInMonth) {
+                            sb.append(" bgcolor=\"lightgray\"");
                         }
-                        else if (day <= 0 || day > daysInMonth) {
-                            sb.append(" bgcolor=\"gray\"");
+                        else if(day>0 && arrayPetitions[day - 1][j]==null){
+                            sb.append("bgcolor=\"lightgreen\"");
                         }
                         else if(arrayPetitions[day - 1][j].equals(international.getClosed())){
-                            sb.append(" bgcolor=\"red\"");
+                            sb.append(" bgcolor=\"grey\"");
                         }else{
                             sb.append(" bgcolor=\"lightblue\"");
                         }
                         sb.append(">");
-                        if (day > 0) {
+                        if (day > 0 && day <= daysInMonth && arrayPetitions[day - 1][j]!=null) {
                             sb.append(arrayPetitions[day - 1][j]);
                         }
                         sb.append("</td>");
@@ -128,7 +125,7 @@ public class OutputHTML {
         sb.append("</html>");
         FileWriter fstream = null;
         try {
-            fstream = new FileWriter(sala + ".html");
+            fstream = new FileWriter(room + ".html");
             BufferedWriter out = new BufferedWriter(fstream);
             out.write(sb.toString());
             out.close();

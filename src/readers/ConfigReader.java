@@ -23,7 +23,7 @@ public class ConfigReader {
 			Month month = Month.of(Integer.parseInt(dataArray1[1]));
 
 			String line2 = sc.nextLine();
-			String[] dataArray2 = line1.split(" ");
+			String[] dataArray2 = line2.split(" ");
 			String inputLang = dataArray2[0];
 			String outputLang = dataArray2[1];
 			config = new Config(year,month,inputLang,outputLang);

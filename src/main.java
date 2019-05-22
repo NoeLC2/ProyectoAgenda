@@ -1,11 +1,13 @@
 import ProcessPetitions.ConvertWeekDays;
 import ProcessPetitions.CreateArrayPetitions;
 import ProcessPetitions.ProcessPetitionsMonth;
+import ProcessPetitions.SeparatePetitionsByRoom;
 import fileclasses.Config;
 import fileclasses.International;
 import fileclasses.Petition;
 import fileclasses.ProcessedPetition;
 import output.OutputHTML;
+import output.OutputLogIncidents;
 import readers.ConfigReader;
 import readers.InternationalReader;
 import readers.PetitionReader;
@@ -18,16 +20,17 @@ import java.util.*;
 
 public class main {
     public static void main(String[] args) {
+        OutputLogIncidents.clearLog();
         List<Petition> petitions = PetitionReader.getPetitions();
         //System.out.println(petitions);
         Config config = ConfigReader.getConfig();
-        International international = InternationalReader.getInternacional();
+        International international = InternationalReader.getInternacional(config);
         List<ProcessedPetition> processedPetitions = new ArrayList<>();
         //processedPetitions.add(ProcessPetitionsMonth.getProcessedPetitions(config, petitions.get(14)));
 
         for (Petition petition: petitions){
-            if(ProcessPetitionsMonth.getProcessedPetitions(config, petition) != null) {
-                processedPetitions.add(ProcessPetitionsMonth.getProcessedPetitions(config, petition));
+            if(ProcessPetitionsMonth.getProcessedPetitions(config, petition, international) != null) {
+                processedPetitions.add(ProcessPetitionsMonth.getProcessedPetitions(config, petition, international));
             }
         }
 
@@ -37,7 +40,7 @@ public class main {
             roomsAsSet.add(p.getRoom());
         }
 
-        roomsAsSet.forEach((e) -> { OutputHTML.generateHTML((e), international, processedPetitions, config); });
+        roomsAsSet.forEach((e) -> { OutputHTML.generateHTML((e), international, SeparatePetitionsByRoom.getPetitions(processedPetitions, (e)), config); });
 
         //OutputHTML.generateHTML(international, processedPetitions, config);
 

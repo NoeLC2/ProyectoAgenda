@@ -2,57 +2,44 @@ package readers;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
+import fileclasses.Config;
 import fileclasses.International;
 
 public class InternationalReader {
+
+    private static final String FILE_NAME = "internacional";
 	
-	public static International getInternacional(){
+	public static International getInternacional(Config config){
+
+
 
 	    International international = null;
 
-	    //File file = new File("international." + config.getOutputLang);
-		File file = new File("internacional.CAT");
+	    File file = new File(FILE_NAME + "." + config.getOutputLang());
 		
 		try(Scanner sc = new Scanner(file)) {
-			String line1 = sc.nextLine();
-			String[] dataTitle = line1.split(";");
-			String title = dataTitle[1].trim();
-			
-			String line2 = sc.nextLine();
-			String[] dataWeekDays = line2.split(";");
-			String[] weekDays = dataWeekDays[1].split(",");
 
-            String line3 = sc.nextLine();
-            String[] dataWeekDaysAbbr = line3.split(";");
-            String weekDaysAbbr = dataWeekDaysAbbr[1].trim();
+		    List<Object> data = new ArrayList<>();
+		    for(int i = 0; i<8; i++){
+                String line = sc.nextLine();
+                String[] dataInfo = line.split(";");
+                if(dataInfo[1].indexOf(",") == -1){
+                    data.add(dataInfo[1].trim());
+                } else{
+                    data.add(dataInfo[1].split(","));
+                }
 
-            String line4 = sc.nextLine();
-            String[] dataMonths = line4.split(";");
-            String[] months = dataMonths[1].split(",");
+            }
 
-            String line5 = sc.nextLine();
-            String[] dataTimeWords = line5.split(";");
-            String[] timeWords = dataTimeWords[1].split(",");
-
-            String line6 = sc.nextLine();
-            String[] dataGeneratedBy = line6.split(";");
-            String generatedBy = dataGeneratedBy[1].trim();
-
-            String line7 = sc.nextLine();
-            String[] dataClosed = line7.split(";");
-            String closed = dataClosed[1].trim();
-
-            String line8 = sc.nextLine();
-            String[] dataError = line7.split(";");
-            String error = dataError[1].trim();
-
-            international = new International(title, weekDays, weekDaysAbbr, months, timeWords, generatedBy, closed, error);
+            international = new International((String) data.get(0), (String[]) data.get(1), (String) data.get(2), (String[]) data.get(3),(String[]) data.get(4), (String) data.get(5), (String) data.get(6), (String) data.get(7));
+            //international = new International(title, weekDays, weekDaysAbbr, months, timeWords, generatedBy, closed, error);
 
 
-
-		} catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         return international;

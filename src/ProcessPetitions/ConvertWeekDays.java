@@ -1,6 +1,7 @@
 package ProcessPetitions;
 
 import fileclasses.Config;
+import fileclasses.International;
 import fileclasses.Petition;
 import readers.ConfigReader;
 import readers.PetitionReader;
@@ -11,15 +12,14 @@ import java.util.Arrays;
 import java.util.List;
 
 public class ConvertWeekDays {
-    public static List<DayOfWeek> convert(Petition petition) {
+    public static List<DayOfWeek> convert(Petition petition, International international) {
         Config config = ConfigReader.getConfig();
         String inputLang = config.getInputLang();
         String weekDays = petition.getWeekDays();
-        List<DayOfWeek> arrayProcessedDays = new ArrayList<>();;
+        List<DayOfWeek> arrayProcessedDays = new ArrayList<>();
 
-        //use getters from International
-        String[] abbreviations = {"L","M","C","J","V","S","G"};
-        String[] weekDaysNames = {"Dilluns","Dimarts","Dimecres","Dijous","Divendres","Dissabte","Diumenge"};
+        international.getAbbreviatedWeekDays();
+        String[] abbreviations = international.getAbbreviatedWeekDays().split("");
 
         String[] weekDaysArray = weekDays.split("");
         int i =0;

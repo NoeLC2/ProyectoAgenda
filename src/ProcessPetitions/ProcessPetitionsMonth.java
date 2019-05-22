@@ -1,6 +1,7 @@
 package ProcessPetitions;
 
 import fileclasses.Config;
+import fileclasses.International;
 import fileclasses.Petition;
 import fileclasses.ProcessedPetition;
 
@@ -15,10 +16,10 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class ProcessPetitionsMonth {
-    public static ProcessedPetition getProcessedPetitions(Config config, Petition petition){
+    public static ProcessedPetition getProcessedPetitions(Config config, Petition petition, International international){
         Month month = config.getMonth();
         List<LocalDate> allDatesBetween = getDatesBetween(petition.getStartDate(), petition.getEndDate());
-        List<DayOfWeek> weekDays = ConvertWeekDays.convert(petition);
+        List<DayOfWeek> weekDays = ConvertWeekDays.convert(petition, international);
 
         for (Iterator<LocalDate> iter = allDatesBetween.listIterator(); iter.hasNext(); ) {
             LocalDate date = iter.next();
@@ -42,7 +43,7 @@ public class ProcessPetitionsMonth {
             return null;
         } else{
             List<Integer> hours = getSchedule(petition);
-            ProcessedPetition processedPetition = new ProcessedPetition(petition.getActivity(), petition.getRoom(), allDatesBetween, hours);
+            ProcessedPetition processedPetition = new ProcessedPetition(petition.getActivity(), petition.getRoom(), petition.getStartDate(), petition.getEndDate(), petition.getWeekDays(), petition.getSchedule(), allDatesBetween, hours);
             return processedPetition;
         }
 

@@ -26,7 +26,9 @@ public class PetitionReader {
             while(sc.hasNextLine()) {
                 String line = sc.nextLine();
                 Petition petition = createPetition(line);
-                petitions.add(petition);
+                if (petition != null) {
+                    petitions.add(petition);
+                }
             }
 
         } catch (FileNotFoundException e) {
@@ -52,15 +54,23 @@ public class PetitionReader {
         String weekDays = dataArray[WEEKDAYS];
         String schedule = dataArray[SCHEDULE];
         String[] scheduleArray = schedule.split("_");
+
+        Petition petition = new Petition(activity, room, startDate, endDate, weekDays, scheduleArray);
+        for(int i=0; i<scheduleArray.length; i++){
+            if(Integer.parseInt(scheduleArray[i].substring(0,2)) < Integer.parseInt(scheduleArray[i].substring(2,4))){
+                OutputLogIncidents.writeConflict("wrongScheduleFormat", petition);
+                return null;
+            }
+        }
         if (scheduleArray.length > 5){
-            OutputLogIncidents.writeConflict("TooManyTimePeriods");
+            OutputLogIncidents.writeConflict("TooManyTimePeriods", petition);
             return null;
-        } else if(endDate.isBefore(endDate)){
-            //OutputLogIncidents.writeConflict("fgfgfg");
+        }else if(endDate.isBefore(startDate)){
+            OutputLogIncidents.writeConflict("wrongDateFormat", petition);
             return null;
         }
         else {
-            return new Petition(activity, room, startDate, endDate, weekDays, scheduleArray);
+            return petition;
         }
     }
 }
