@@ -15,7 +15,7 @@ public class main {
     public static void main(String[] args) {
         //We we'll create every object that we'll need
         OutputLogIncidents.clearLog();
-        List<Petition> petitions = PetitionReader.getPetitions();
+        List<Petition> petitions = PetitionReader.getPetitions("Comedor2019");
         Config config = ConfigReader.getConfig();
         International internationalIn = InternationalReader.getInternacional(config.getInputLang());
         International internationalOut = InternationalReader.getInternacional(config.getOutputLang());

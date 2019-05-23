@@ -26,7 +26,7 @@ public class OutputHTML {
         for (ProcessedPetition p : processedPetitions) {
             activitiesAsSet.add(p.getActivity());
         }
-        String[] colors = {"Cornsilk", "LightSkyBlue", "LightPink", "MediumTurquoise", "Thistle", "LightSteelBlue"};
+        String[] colors = {"Cornsilk", "LightSkyBlue", "LightPink", "Thistle", "MediumTurquoise", "LightSteelBlue", "LightSalmon", "PAPAYAWHIP", "LAVENDER"};
 
 
         int month = config.getMonth().getValue();

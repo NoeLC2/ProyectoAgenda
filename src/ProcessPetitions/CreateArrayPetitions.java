@@ -38,7 +38,7 @@ public class CreateArrayPetitions {
                     for (Integer hour : hours) {
                         if (arraySchedules[day.getDayOfMonth() - 1][hour] != null && !isLogged) {
                             isLogged = true;
-                            OutputLogIncidents.writeConflict("OverlappingEvents", petition);
+                            OutputLogIncidents.writeOverlappingConflict(petition, arraySchedules[day.getDayOfMonth() - 1][hour]);
                         }
                     }
                 }
