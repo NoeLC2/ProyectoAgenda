@@ -11,24 +11,19 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.time.format.FormatStyle;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 
 public class OutputHTML {
-    public static void generateHTML(String room, International international, List<ProcessedPetition> processedPetitions, Config config){
+    public static void generateHTML(String room, International internationalOut, International internationalIn, List<ProcessedPetition> processedPetitions, Config config){
 
-        String[][] arrayPetitions = CreateArrayPetitions.getArray(processedPetitions, config, international);
-        /*String[][] arrayPetitions = new String[31][24];
-        for(int i = 0; i<30; i++){
-            if(i%3==0){
-                arrayPetitions[i][5]+= i;
-            }
-        }*/
+        String[][] arrayPetitions = CreateArrayPetitions.getArray(processedPetitions, config, internationalOut, internationalIn);
+
         int month = config.getMonth().getValue();
         int year = config.getYear().getValue();
 
@@ -50,27 +45,32 @@ public class OutputHTML {
         int numberOfWeeks = (int) ChronoUnit.WEEKS.between(localDate, localDate2);
 
 
-        String[] weekDays = international.getWeekDays();
+        String[] weekDays = internationalOut.getWeekDays();
 
         StringBuilder sb = new StringBuilder();
         sb.append("<html>");
         sb.append("<head>");
-        sb.append("<title>" + international.getTitle() + " " + room + " " + international.getMonths()[month-1] + " " + year);
+        sb.append("<title>" + internationalOut.getTitle() + " " + room.replaceAll("([^_])([1-9])", "$1 $2") + " " + internationalOut.getMonths()[month-1] + " " + year);
         sb.append("</title>");
-        sb.append("<style>td{text-align: center; vertical-align: middle;}</style>");
+        sb.append("<style>td{text-align: center; vertical-align: middle;}table, th, td {border: 1px solid gray;}</style>");
         sb.append("</head>");
-        sb.append("<body>");
-        sb.append("<h1 align=\"center\">" + room + "</h1>");
-        sb.append("<h1 align=\"center\">" + international.getTitle() + " " + international.getMonths()[month-1] + " " + year + "</h1>");
+        sb.append("<body bgcolor=\"MintCream\">");
+        sb.append("<h1 align=\"center\">" + room.replaceAll("([^_])([1-9])", "$1 $2") + "</h1>");
+        sb.append("<h1 align=\"center\">" + internationalOut.getTitle() + " " + internationalOut.getMonths()[month-1] + " " + year + "</h1>");
         for(int m=0;m<=numberOfWeeks;m++){
-            sb.append("<table width=\"100%\" border=\"1\" style=\"width:100%\"><tr>");
+            sb.append("<table bgcolor=\"Lavender\" width=\"100%\" border=\"1\" style=\"width:100%\"><tr>");
             for(int i=-1;i<weekDays.length;i++){
-                sb.append("<th>");
+                sb.append("<th bgcolor=\"PowderBlue\">");
                 if(i==-1){
-                    LocalDate date = LocalDate.of(year, month, 1);
+                    LocalDate date = null;
+                    if(day2<1) {
+                        date = LocalDate.of(year, month, 1);
+                    } else{
+                        date = LocalDate.of(year, month, day2);
+                    }
                     TemporalField woy = WeekFields.of(Locale.getDefault()).weekOfWeekBasedYear();
                     int weekNumber = date.get(woy);
-                    sb.append(international.getTimeWords()[2] + " " +  weekNumber);
+                    sb.append(internationalOut.getTimeWords()[2] + " " +  weekNumber);
                 } else if(day2<=0 || day2>daysInMonth){
                     sb.append(weekDays[i] + "   ");
                     day2++;
@@ -96,10 +96,12 @@ public class OutputHTML {
                         else if(day>0 && arrayPetitions[day - 1][j]==null){
                             sb.append("bgcolor=\"lightgreen\"");
                         }
-                        else if(arrayPetitions[day - 1][j].equals(international.getClosed())){
+                        else if(arrayPetitions[day - 1][j].equals(internationalOut.getClosed())){
                             sb.append(" bgcolor=\"grey\"");
                         }else{
                             sb.append(" bgcolor=\"lightblue\"");
+                            //int num = arrayPetitions[day - 1][j].charAt(arrayPetitions[day - 1][j].length()-1);
+                            //sb.append(" style=\"backgroundcolor:(" + 255 + "," + 255 + "," + 255 + ")\"");
                         }
                         sb.append(">");
                         if (day > 0 && day <= daysInMonth && arrayPetitions[day - 1][j]!=null) {
@@ -117,9 +119,9 @@ public class OutputHTML {
             sb.append("</table></br>");
         }
 
-        sb.append("<h4>" + international.getGeneratedBy() + ": " + System.getProperty("user.name") + "</h4>");
+        sb.append("<h4>" + internationalOut.getGeneratedBy() + ": " + System.getProperty("user.name") + "</h4>");
         LocalDateTime dateTime = LocalDateTime.now();
-        sb.append("<h4>" + dateTime.getDayOfMonth() + " " + international.getMonths()[dateTime.getMonthValue()-1] +
+        sb.append("<h4>" + dateTime.getDayOfMonth() + " " + internationalOut.getMonths()[dateTime.getMonthValue()-1] +
                 " " + dateTime.getYear() + ", " + dateTime.getHour() + ":" + dateTime.getMinute() + ":" + dateTime.getSecond() + "</h4>");
         sb.append("</body>");
         sb.append("</html>");

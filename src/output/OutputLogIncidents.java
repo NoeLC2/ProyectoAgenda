@@ -1,15 +1,15 @@
 package output;
 
 import fileclasses.Petition;
+import fileclasses.ProcessedPetition;
 
 import java.io.*;
 import java.util.Arrays;
+import java.util.List;
 
 
 public class OutputLogIncidents {
     private static final String FILENAME = "incidencias.log";
-    //Esta clase tendría un método que añade una nueva línea al archivo incidencias.log
-    //Las otras clases llamarían a esta clase para escribir cada posible conflicto en el log.
 
     public static void clearLog(){
         PrintWriter writer = null;
@@ -21,6 +21,8 @@ public class OutputLogIncidents {
             e.printStackTrace();
         }
     }
+    public static int failedOverlappingPetitionsCount = 0;
+    public static int failedFormatPetitionsCount = 0;
 
 
     public static void writeConflict(String conflictType, Petition petition){
@@ -31,20 +33,41 @@ public class OutputLogIncidents {
             case "wrongDateFormat":
                 sb.append("Incorrect date format detected for ");
                 sb.append(info);
+                failedFormatPetitionsCount++;
                 break;
             case "OverlappingEvents":
                 sb.append("Two events are overlapping: couldn't schedule petition for ");
                 sb.append(info);
+                failedOverlappingPetitionsCount++;
                 break;
             case "TooManyTimePeriods":
                 sb.append("An event takes too many time periods (the maximum should be 5): ");
                 sb.append(info);
+                failedFormatPetitionsCount++;
                 break;
             case "wrongScheduleFormat":
                 sb.append("This petition has an incorrect schedule format: ");
                 sb.append(info);
+                failedFormatPetitionsCount++;
                 break;
         }
+        FileWriter fstream = null;
+        try {
+            fstream = new FileWriter(FILENAME, true);
+            BufferedWriter out = new BufferedWriter(fstream);
+            out.write(sb.toString());
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void writeSuccessfulPetitions(List<Petition> allPetitions, List<ProcessedPetition> processedPetitions){
+        StringBuilder sb = new StringBuilder();
+        sb.append("\nPetitions that weren't processed because of formatting issues: " + failedFormatPetitionsCount + " out of " + (allPetitions.size()+failedFormatPetitionsCount));
+        sb.append("\nProcessed petitions for the month that failed due to overlapping issues: " + failedOverlappingPetitionsCount + " out of " + processedPetitions.size());
+
         FileWriter fstream = null;
         try {
             fstream = new FileWriter(FILENAME, true);

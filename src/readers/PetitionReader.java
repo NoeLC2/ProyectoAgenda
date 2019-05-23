@@ -46,6 +46,7 @@ public class PetitionReader {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         String activity = dataArray[ACTIVITY];
+        activity=activity.replaceAll("([^_])([A-Z])", "$1 $2");
         String room = dataArray[ROOM];
 
         //Throw exception in case the date format is incorrect
@@ -57,7 +58,7 @@ public class PetitionReader {
 
         Petition petition = new Petition(activity, room, startDate, endDate, weekDays, scheduleArray);
         for(int i=0; i<scheduleArray.length; i++){
-            if(Integer.parseInt(scheduleArray[i].substring(0,2)) < Integer.parseInt(scheduleArray[i].substring(2,4))){
+            if(Integer.parseInt(scheduleArray[i].substring(0,2)) > Integer.parseInt(scheduleArray[i].substring(3,5))){
                 OutputLogIncidents.writeConflict("wrongScheduleFormat", petition);
                 return null;
             }

@@ -1,5 +1,3 @@
-import ProcessPetitions.ConvertWeekDays;
-import ProcessPetitions.CreateArrayPetitions;
 import ProcessPetitions.ProcessPetitionsMonth;
 import ProcessPetitions.SeparatePetitionsByRoom;
 import fileclasses.Config;
@@ -11,61 +9,34 @@ import output.OutputLogIncidents;
 import readers.ConfigReader;
 import readers.InternationalReader;
 import readers.PetitionReader;
-
-import java.time.DayOfWeek;
-import java.time.LocalDate;
-import java.time.YearMonth;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class main {
     public static void main(String[] args) {
+        //We we'll create every object that we'll need
         OutputLogIncidents.clearLog();
         List<Petition> petitions = PetitionReader.getPetitions();
-        //System.out.println(petitions);
         Config config = ConfigReader.getConfig();
-        International international = InternationalReader.getInternacional(config);
+        International internationalIn = InternationalReader.getInternacional(config.getInputLang());
+        International internationalOut = InternationalReader.getInternacional(config.getOutputLang());
         List<ProcessedPetition> processedPetitions = new ArrayList<>();
-        //processedPetitions.add(ProcessPetitionsMonth.getProcessedPetitions(config, petitions.get(14)));
 
+        //We'll add all the petitions into the ArrayList
+        //I could have added them all in getProcessedPetitions, but I wanted to be able to print a specific
+        // petition through the main method
         for (Petition petition: petitions){
-            if(ProcessPetitionsMonth.getProcessedPetitions(config, petition, international) != null) {
-                processedPetitions.add(ProcessPetitionsMonth.getProcessedPetitions(config, petition, international));
+            if(ProcessPetitionsMonth.getProcessedPetitions(config, petition, internationalIn) != null) {
+                processedPetitions.add(ProcessPetitionsMonth.getProcessedPetitions(config, petition, internationalIn));
             }
         }
 
+        //We get a set of different room names
         Set<String> roomsAsSet = new HashSet<String>();
-
-        for (Petition p : petitions) {
+        for (ProcessedPetition p : processedPetitions) {
             roomsAsSet.add(p.getRoom());
         }
-
-        roomsAsSet.forEach((e) -> { OutputHTML.generateHTML((e), international, SeparatePetitionsByRoom.getPetitions(processedPetitions, (e)), config); });
-
-        //OutputHTML.generateHTML(international, processedPetitions, config);
-
-        /*ProcessedPetition pp = ProcessPetitionsMonth.getProcessedPetitions(config, petitions.get(14));
-        List<DayOfWeek> weekDays = ConvertWeekDays.convert(petitions.get(8));
-        System.out.println(pp.getDaysMonth());
-
-        String[][] arrayPetitions = CreateArrayPetitions.getArray(processedPetitions);
-
-        weekDays.forEach(System.out::println);
-
-        System.out.println(arrayPetitions[24][9]);*/
-
-
-        /*LocalDate startDate = petitions.get(8).getStartDate();
-        LocalDate endDate = petitions.get(8).getEndDate();
-        List<LocalDate> totalDates = new ArrayList<>();
-        while (startDate.isBefore(endDate)) {
-            totalDates.add(startDate);
-            startDate = startDate.plusDays(1);
-        }
-
-        totalDates.forEach(System.out::println);*/
-
-
-        //En el main ejecutaríamos el escritor de html y el comprobador principal de excepciones
+        //Now we print an HTML file for each room name
+        roomsAsSet.forEach((e) -> { OutputHTML.generateHTML((e), internationalOut, internationalIn, SeparatePetitionsByRoom.getPetitions(processedPetitions, (e)), config); });
+        OutputLogIncidents.writeSuccessfulPetitions(petitions, processedPetitions);
     }
 }

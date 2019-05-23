@@ -13,13 +13,13 @@ public class InternationalReader {
 
     private static final String FILE_NAME = "internacional";
 	
-	public static International getInternacional(Config config){
+	public static International getInternacional(String language){
 
 
 
 	    International international = null;
 
-	    File file = new File(FILE_NAME + "." + config.getOutputLang());
+	    File file = new File(FILE_NAME + "." + language);
 		
 		try(Scanner sc = new Scanner(file)) {
 

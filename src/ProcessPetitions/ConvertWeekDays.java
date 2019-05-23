@@ -13,8 +13,6 @@ import java.util.List;
 
 public class ConvertWeekDays {
     public static List<DayOfWeek> convert(Petition petition, International international) {
-        Config config = ConfigReader.getConfig();
-        String inputLang = config.getInputLang();
         String weekDays = petition.getWeekDays();
         List<DayOfWeek> arrayProcessedDays = new ArrayList<>();
 

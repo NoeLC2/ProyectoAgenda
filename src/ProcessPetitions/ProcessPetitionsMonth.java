@@ -30,14 +30,6 @@ public class ProcessPetitionsMonth {
                 iter.remove();
             }
         }
-        /*for(LocalDate date : allDatesBetween){
-            if(date.getMonth()!=month) {
-                allDatesBetween.remove(date);
-            }
-            else if(!weekDays.contains(date.getDayOfWeek())){
-                allDatesBetween.remove(date);
-            }
-        }*/
 
         if(allDatesBetween.isEmpty()){
             return null;
@@ -54,18 +46,12 @@ public class ProcessPetitionsMonth {
     public static List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate) {
         //Stackoverflow
         List<LocalDate> totalDates = new ArrayList<>();
-        while (startDate.isBefore(endDate)) {
+        while (startDate.isBefore(endDate.plusDays(1))) {
             totalDates.add(startDate);
             startDate = startDate.plusDays(1);
         }
 
         return totalDates;
-
-        /*long numOfDaysBetween = ChronoUnit.DAYS.between(startDate, endDate);
-        return IntStream.iterate(0, i -> i + 1)
-                .limit(numOfDaysBetween)
-                .mapToObj(i -> startDate.plusDays(i))
-                .collect(Collectors.toList());*/
     }
 
     public static List<Integer> getSchedule(Petition petition){
