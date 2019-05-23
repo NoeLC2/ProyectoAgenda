@@ -52,7 +52,7 @@ public class OutputHTML {
         sb.append("<head>");
         sb.append("<title>" + internationalOut.getTitle() + " " + room.replaceAll("([^_])([1-9])", "$1 $2") + " " + internationalOut.getMonths()[month-1] + " " + year);
         sb.append("</title>");
-        sb.append("<style>td{text-align: center; vertical-align: middle;}table, th, td {border: 1px solid gray;}</style>");
+        sb.append("<style>td{text-align: center; vertical-align: middle;}table, th, td {border: 1px solid black;border-collapse: collapse;}</style>");
         sb.append("</head>");
         sb.append("<body bgcolor=\"MintCream\">");
         sb.append("<h1 align=\"center\">" + room.replaceAll("([^_])([1-9])", "$1 $2") + "</h1>");
@@ -122,7 +122,7 @@ public class OutputHTML {
         sb.append("<h4>" + internationalOut.getGeneratedBy() + ": " + System.getProperty("user.name") + "</h4>");
         LocalDateTime dateTime = LocalDateTime.now();
         sb.append("<h4>" + dateTime.getDayOfMonth() + " " + internationalOut.getMonths()[dateTime.getMonthValue()-1] +
-                " " + dateTime.getYear() + ", " + dateTime.getHour() + ":" + dateTime.getMinute() + ":" + dateTime.getSecond() + "</h4>");
+                " " + dateTime.getYear() + ", " + dateTime.toLocalTime().toString() + "</h4>");
         sb.append("</body>");
         sb.append("</html>");
         FileWriter fstream = null;
