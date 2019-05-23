@@ -25,9 +25,11 @@ public class PetitionReader {
             petitions = new ArrayList<>();
             while(sc.hasNextLine()) {
                 String line = sc.nextLine();
-                Petition petition = createPetition(line);
-                if (petition != null) {
-                    petitions.add(petition);
+                if(!line.substring(0,1).equals("#")) {
+                    Petition petition = createPetition(line);
+                    if (petition != null) {
+                        petitions.add(petition);
+                    }
                 }
             }
 

@@ -14,15 +14,20 @@ import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Locale;
-import java.util.Set;
+import java.util.*;
 
 public class OutputHTML {
     public static void generateHTML(String room, International internationalOut, International internationalIn, List<ProcessedPetition> processedPetitions, Config config){
 
         String[][] arrayPetitions = CreateArrayPetitions.getArray(processedPetitions, config, internationalOut, internationalIn);
+
+        //This is just so I can have different colors for each activity
+        Set<String> activitiesAsSet = new TreeSet<String>();
+        for (ProcessedPetition p : processedPetitions) {
+            activitiesAsSet.add(p.getActivity());
+        }
+        String[] colors = {"Cornsilk", "LightSkyBlue", "LightPink", "MediumTurquoise", "Thistle", "LightSteelBlue"};
+
 
         int month = config.getMonth().getValue();
         int year = config.getYear().getValue();
@@ -30,7 +35,6 @@ public class OutputHTML {
         YearMonth yearMonth = YearMonth.of(year, month);
         int daysInMonth = yearMonth.lengthOfMonth();
 
-        //muy cutre
         LocalDate localDate = LocalDate.of(year, month, 01);
         LocalDate localDate2 =  LocalDate.of(year, month, 01).plusMonths(1);
 
@@ -47,18 +51,20 @@ public class OutputHTML {
 
         String[] weekDays = internationalOut.getWeekDays();
 
+        //We'll create the HTML file with a StringBuilder, which we will pass to a FileWriter later
         StringBuilder sb = new StringBuilder();
         sb.append("<html>");
         sb.append("<head>");
         sb.append("<title>" + internationalOut.getTitle() + " " + room.replaceAll("([^_])([1-9])", "$1 $2") + " " + internationalOut.getMonths()[month-1] + " " + year);
         sb.append("</title>");
-        sb.append("<style>td{text-align: center; vertical-align: middle;}table, th, td {border: 1px solid black;border-collapse: collapse;}</style>");
+        sb.append("<style>td{text-align: center; vertical-align: middle;}table, th, td {border: 1px solid black;border-collapse: collapse;width:80vw;margin-left:auto;margin-right:auto;}</style>");
         sb.append("</head>");
         sb.append("<body bgcolor=\"MintCream\">");
         sb.append("<h1 align=\"center\">" + room.replaceAll("([^_])([1-9])", "$1 $2") + "</h1>");
         sb.append("<h1 align=\"center\">" + internationalOut.getTitle() + " " + internationalOut.getMonths()[month-1] + " " + year + "</h1>");
+        //We create all the tables we need for this month (one for each week)
         for(int m=0;m<=numberOfWeeks;m++){
-            sb.append("<table bgcolor=\"Lavender\" width=\"100%\" border=\"1\" style=\"width:100%\"><tr>");
+            sb.append("<table bgcolor=\"Lavender\" border=\"1\"><tr>");
             for(int i=-1;i<weekDays.length;i++){
                 sb.append("<th bgcolor=\"PowderBlue\">");
                 if(i==-1){
@@ -99,7 +105,11 @@ public class OutputHTML {
                         else if(arrayPetitions[day - 1][j].equals(internationalOut.getClosed())){
                             sb.append(" bgcolor=\"grey\"");
                         }else{
-                            sb.append(" bgcolor=\"lightblue\"");
+                            if(colors.length >= activitiesAsSet.size()) {
+                                sb.append(" bgcolor=\"" + colors[((TreeSet<String>) activitiesAsSet).headSet(arrayPetitions[day - 1][j]).size()] + "\"");
+                            } else{
+                                sb.append(" bgcolor=\"lightblue\"");
+                            }
                             //int num = arrayPetitions[day - 1][j].charAt(arrayPetitions[day - 1][j].length()-1);
                             //sb.append(" style=\"backgroundcolor:(" + 255 + "," + 255 + "," + 255 + ")\"");
                         }
