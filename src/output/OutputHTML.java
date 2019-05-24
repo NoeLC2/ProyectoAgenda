@@ -133,6 +133,7 @@ public class OutputHTML {
         LocalDateTime dateTime = LocalDateTime.now();
         sb.append("<h4>" + dateTime.getDayOfMonth() + " " + internationalOut.getMonths()[dateTime.getMonthValue()-1] +
                 " " + dateTime.getYear() + ", " + dateTime.toLocalTime().toString() + "</h4>");
+        sb.append("<h4><a href=\"incidencias.log\">" + internationalOut.getError() + " log</a></h4>");
         sb.append("</body>");
         sb.append("</html>");
         FileWriter fstream = null;

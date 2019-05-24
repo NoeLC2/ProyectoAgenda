@@ -70,7 +70,6 @@ public class OutputLogIncidents {
         sb.append("\n\nPetitions that weren't processed because of formatting issues: " + failedFormatPetitionsCount + " out of " + (allPetitions.size()+failedFormatPetitionsCount));
         sb.append("\nProcessed petitions for the month that failed due to overlapping issues: " + failedOverlappingPetitionsCount + " out of " + processedPetitions.size());
         write(sb);
-
     }
 
     public static void write(StringBuilder sb){

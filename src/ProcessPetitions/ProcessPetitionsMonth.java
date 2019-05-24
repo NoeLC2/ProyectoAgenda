@@ -47,7 +47,7 @@ public class ProcessPetitionsMonth {
     }
 
     public static List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate) {
-        //Stackoverflow
+        //Taken from StackOverflow
         List<LocalDate> totalDates = new ArrayList<>();
         while (startDate.isBefore(endDate.plusDays(1))) {
             totalDates.add(startDate);
