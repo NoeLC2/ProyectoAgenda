@@ -9,8 +9,10 @@ public class International {
     private String generatedBy;
     private String closed;
     private String error;
+    private String available;
 
-    public International(String title, String[] weekDays, String abbreviatedWeekDays, String[] months, String[] timeWords, String generatedBy, String closed, String error) {
+
+    public International(String title, String[] weekDays, String abbreviatedWeekDays, String[] months, String[] timeWords, String generatedBy, String closed, String error, String available) {
         this.title = title;
         this.weekDays = weekDays;
         this.abbreviatedWeekDays = abbreviatedWeekDays;
@@ -19,6 +21,7 @@ public class International {
         this.generatedBy = generatedBy;
         this.closed = closed;
         this.error = error;
+        this.available = available;
     }
 
     public String getTitle() {
@@ -52,4 +55,6 @@ public class International {
     public String getError() {
         return error;
     }
+
+    public String getAvailable() { return available; }
 }
