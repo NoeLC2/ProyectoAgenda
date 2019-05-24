@@ -8,6 +8,7 @@ import fileclasses.ProcessedPetition;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.Year;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -18,12 +19,14 @@ import java.util.stream.IntStream;
 public class ProcessPetitionsMonth {
     public static ProcessedPetition getProcessedPetitions(Config config, Petition petition, International international){
         Month month = config.getMonth();
+        int year = config.getYear().getValue();
         List<LocalDate> allDatesBetween = getDatesBetween(petition.getStartDate(), petition.getEndDate());
         List<DayOfWeek> weekDays = ConvertWeekDays.convert(petition, international);
 
         for (Iterator<LocalDate> iter = allDatesBetween.listIterator(); iter.hasNext(); ) {
             LocalDate date = iter.next();
-            if(date.getMonth() != month){
+            //Why the hell does getMonth() return a Month but getYear() returns an int??
+            if(date.getMonth() != month || date.getYear() != year){
                 iter.remove();
             }
             else if(!weekDays.contains(date.getDayOfWeek())){

@@ -13,21 +13,23 @@ import java.util.List;
 import java.util.Scanner;
 
 public class PetitionReader {
-    public static List<Petition> getPetitions(){
+    public static List<Petition> getPetitions(String petitionFile){
         //Por comodidad usamos la misma estructura que el lector 
     	//de coches que hicimos de ejemplo
 
         List<Petition> petitions = Collections.emptyList();
 
-        File file = new File("peticions.txt");
+        File file = new File(petitionFile + ".txt");
 
         try(Scanner sc = new Scanner(file)) {
             petitions = new ArrayList<>();
             while(sc.hasNextLine()) {
                 String line = sc.nextLine();
-                Petition petition = createPetition(line);
-                if (petition != null) {
-                    petitions.add(petition);
+                if(!line.substring(0,1).equals("#")) {
+                    Petition petition = createPetition(line);
+                    if (petition != null) {
+                        petitions.add(petition);
+                    }
                 }
             }
 
@@ -67,7 +69,7 @@ public class PetitionReader {
             OutputLogIncidents.writeConflict("TooManyTimePeriods", petition);
             return null;
         }else if(endDate.isBefore(startDate)){
-            OutputLogIncidents.writeConflict("wrongDateFormat", petition);
+            OutputLogIncidents.writeConflict("conflictingDates", petition);
             return null;
         }
         else {
