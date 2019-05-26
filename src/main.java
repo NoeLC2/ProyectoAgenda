@@ -13,17 +13,23 @@ import java.util.*;
 
 public class main {
     public static void main(String[] args) {
+        Config config = ConfigReader.getConfig();
+        execute("FísicaHoraris", config);
+    }
+
+
+    public static void execute(String filename, Config config){
         //We we'll create every object that we'll need
         OutputLogIncidents.clearLog();
-        List<Petition> petitions = PetitionReader.getPetitions("FísicaHoraris");
-        Config config = ConfigReader.getConfig();
+        List<Petition> petitions = PetitionReader.getPetitions(filename);
+
         International internationalIn = InternationalReader.getInternacional(config.getInputLang());
         International internationalOut = InternationalReader.getInternacional(config.getOutputLang());
         List<ProcessedPetition> processedPetitions = new ArrayList<>();
 
         //We'll add all the petitions into the ArrayList
         //I could have added them all in getProcessedPetitions, but I wanted to be able to print a specific
-        // petition through the main method
+        // petition here
         for (Petition petition: petitions){
             if(ProcessPetitionsMonth.getProcessedPetitions(config, petition, internationalIn) != null) {
                 processedPetitions.add(ProcessPetitionsMonth.getProcessedPetitions(config, petition, internationalIn));

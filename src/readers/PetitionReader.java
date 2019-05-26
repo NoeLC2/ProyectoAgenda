@@ -48,7 +48,7 @@ public class PetitionReader {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         String activity = dataArray[ACTIVITY];
-        activity=activity.replaceAll("((?<=\\p{Ll})\\p{Lu})|((?!\\A)\\p{Lu}(?>\\p{Ll}))", " $0");
+        activity= activity.substring(0,1) + activity.substring(1).replaceAll("((?<=\\p{Ll})\\p{Lu})|((?!\\A)\\p{Lu}(?>\\p{Ll}))", " $0").toLowerCase();
         String room = dataArray[ROOM];
 
         //Throw exception in case the date format is incorrect

@@ -44,9 +44,10 @@ public class OutputHTML {
         //This is just so I can have different colors for each activity
         Set<String> activitiesAsSet = new TreeSet<String>();
         for (ProcessedPetition p : processedPetitions) {
-            activitiesAsSet.add(p.getActivity());
+            if(!p.getActivity().equals(internationalOut.getClosed()))
+                activitiesAsSet.add(p.getActivity());
         }
-        String[] colors = {"Cornsilk", "LightSkyBlue", "LightPink", "Thistle", "MediumTurquoise", "LightSteelBlue", "LightSalmon", "PAPAYAWHIP", "LAVENDER"};
+        String[] colors = {"Cornsilk", "LightSkyBlue", "LightPink", "Thistle", "MediumTurquoise", "LightSteelBlue", "LightSalmon", "MOCCASIN", "LIGHTCYAN"};
 
 
         //We'll create the HTML file with a StringBuilder, which we will pass to a FileWriter later
@@ -56,10 +57,13 @@ public class OutputHTML {
         sb.append("<title>" + internationalOut.getTitle() + " " + room.replaceAll("([^_])([1-9])", "$1 $2") + " " + internationalOut.getMonths()[month-1] + " " + year);
         sb.append("</title>");
         sb.append("<link href=\"https://fonts.googleapis.com/css?family=Didact+Gothic&display=swap\" rel=\"stylesheet\">");
-        sb.append("<style>div{margin-left: 80vw; background-color:#e4e9f3; padding-left: 10px; padding-bottom: 5px; width: 100px; position: absolute; line-height: 1px;}td{text-align: center; vertical-align: middle;}h1{color: #333333;font-family: 'Didact Gothic', sans-serif;}table, th, td {border: 1px solid black;border-collapse: collapse;width:80vw;margin-left:auto;margin-right:auto;}</style>");
+        sb.append("<style>div{margin-left: 80vw;margin-top: 10px; background-color:#e4e9f3; padding-left: 10px; padding-bottom: 5px; width: 100px; " +
+                "position: absolute; line-height: 1px;}td{text-align: center; vertical-align: middle;}h1{color: #333333;font-family: " +
+                "'Didact Gothic', sans-serif;}td{height:2em}table, th, td {border: 1px solid black;border-collapse: collapse;width:80vw;margin-left:auto;margin-right:auto;}</style>");
         sb.append("</head>");
         sb.append("<body bgcolor=\"MintCream\">");
-        sb.append("<div><p>" + internationalOut.getClosed() + ": <span style=\"color: grey; font-size: 1.5em\">■</span></p><p>" + internationalOut.getAvailable() + ": <span style=\"color: lightgreen; font-size: 1.5em\">■</span></p></div>");
+        sb.append("<div><p>" + internationalOut.getClosed() + ": <span style=\"color: grey; font-size: 1.5em\">■</span></p><p>" + internationalOut.getAvailable() +
+                ": <span style=\"color: lightgreen; font-size: 1.5em\">■</span></p></div>");
         sb.append("<h1 align=\"center\">" + room.replaceAll("([^_])([1-9])", "$1 $2").toUpperCase() + "</h1>");
         sb.append("<h1 align=\"center\">" + internationalOut.getTitle() + " " + internationalOut.getMonths()[month-1] + " " + year + "</h1><br>");
         //We create all the tables we need for this month (one for each week)
