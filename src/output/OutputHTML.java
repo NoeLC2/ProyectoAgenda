@@ -17,7 +17,7 @@ import java.util.*;
 public class OutputHTML {
     public static void generateHTML(String room, International internationalOut, International internationalIn, List<ProcessedPetition> processedPetitions, Config config){
 
-        String[][] arrayPetitions = CreateArrayPetitions.getArray(processedPetitions, config, internationalOut, internationalIn);
+        String[][] arrayPetitions = CreateArrayPetitions.getArray(processedPetitions, config, internationalOut, internationalIn, true);
 
         int month = config.getMonth().getValue();
         int year = config.getYear().getValue();
