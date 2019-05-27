@@ -49,12 +49,12 @@ public class ProcessPetitionsMonth {
 
     public static List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate, List<DayOfWeek> weekDays, int month, int year) {
         List<LocalDate> totalDates = new ArrayList<>();
-        LocalDate monthStartDate = LocalDate.of(year, month, 01);
+        LocalDate monthStartDate = LocalDate.of(year, month, 01).minusDays(1);
         LocalDate monthEndDate = LocalDate.of(year, month, 01).plusMonths(1);
         if(startDate.isBefore(monthEndDate) && monthStartDate.isBefore(endDate)){
             LocalDate iterDate = monthStartDate;
             while (iterDate.isBefore(monthEndDate)) {
-                if(iterDate.isBefore(endDate) && iterDate.isAfter(startDate) && weekDays.contains(iterDate.getDayOfWeek())) {
+                if(iterDate.isBefore(endDate.plusDays(1)) && iterDate.isAfter(startDate.minusDays(1)) && weekDays.contains(iterDate.getDayOfWeek())) {
                     totalDates.add(iterDate);
                 }
                 iterDate = iterDate.plusDays(1);

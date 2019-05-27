@@ -15,7 +15,8 @@ import java.time.temporal.WeekFields;
 import java.util.*;
 
 public class OutputHTML {
-    public static void generateHTML(String room, International internationalOut, International internationalIn, List<ProcessedPetition> processedPetitions, Config config){
+    public static void generateHTML(String room, International internationalOut, International internationalIn,
+                                    List<ProcessedPetition> processedPetitions, Config config, int startTime, int endTime){
 
         String[][] arrayPetitions = CreateArrayPetitions.getArray(processedPetitions, config, internationalOut, internationalIn, true);
 
@@ -91,43 +92,44 @@ public class OutputHTML {
 
                 sb.append("</th>");
             }
-            for(int j=0;j<24;j++){
-                sb.append("<tr>");
-                for(int k=-1;k<weekDays.length;k++){
-                    if(k==-1){
-                        sb.append("<td width=\"12.5%\">");
-                        sb.append(j + "-" + (j+1) + "h");
-                        sb.append("</td>");
-                    } else {
-                        sb.append("<td width=\"12.5%\"");
-                        if (day <= 0 || day > daysInMonth) {
-                            sb.append(" bgcolor=\"lightgray\"");
-                        }
-                        else if(day>0 && arrayPetitions[day - 1][j]==null){
-                            sb.append("bgcolor=\"lightgreen\"");
-                        }
-                        else if(arrayPetitions[day - 1][j].equals(internationalOut.getClosed())){
-                            sb.append(" bgcolor=\"grey\"");
-                        }else{
-                            if(colors.length >= activitiesAsSet.size()) {
-                                sb.append(" bgcolor=\"" + colors[((TreeSet<String>) activitiesAsSet).headSet(arrayPetitions[day - 1][j]).size()] + "\"");
-                            } else{
-                                sb.append(" bgcolor=\"lightblue\"");
-                            }
-                            //int num = arrayPetitions[day - 1][j].charAt(arrayPetitions[day - 1][j].length()-1);
-                            //sb.append(" style=\"backgroundcolor:(" + 255 + "," + 255 + "," + 255 + ")\"");
-                        }
-                        sb.append(">");
-                        if (day > 0 && day <= daysInMonth && arrayPetitions[day - 1][j]!=null && !arrayPetitions[day - 1][j].equals(internationalOut.getClosed())) {
-                            sb.append(arrayPetitions[day - 1][j]);
-                        }
-                        sb.append("</td>");
-                        day++;
-                    }
 
+            for(int j=0;j<24;j++){
+                if(j>=startTime && j<endTime) {
+                    sb.append("<tr>");
+                    for (int k = -1; k < weekDays.length; k++) {
+                        if (k == -1) {
+                            sb.append("<td width=\"12.5%\">");
+                            sb.append(j + "-" + (j + 1) + "h");
+                            sb.append("</td>");
+                        } else {
+                            sb.append("<td width=\"12.5%\"");
+                            if (day <= 0 || day > daysInMonth) {
+                                sb.append(" bgcolor=\"lightgray\"");
+                            } else if (day > 0 && arrayPetitions[day - 1][j] == null) {
+                                sb.append("bgcolor=\"lightgreen\"");
+                            } else if (arrayPetitions[day - 1][j].equals(internationalOut.getClosed())) {
+                                sb.append(" bgcolor=\"grey\"");
+                            } else {
+                                if (colors.length >= activitiesAsSet.size()) {
+                                    sb.append(" bgcolor=\"" + colors[((TreeSet<String>) activitiesAsSet).headSet(arrayPetitions[day - 1][j]).size()] + "\"");
+                                } else {
+                                    sb.append(" bgcolor=\"lightblue\"");
+                                }
+                                //int num = arrayPetitions[day - 1][j].charAt(arrayPetitions[day - 1][j].length()-1);
+                                //sb.append(" style=\"backgroundcolor:(" + 255 + "," + 255 + "," + 255 + ")\"");
+                            }
+                            sb.append(">");
+                            if (day > 0 && day <= daysInMonth && arrayPetitions[day - 1][j] != null && !arrayPetitions[day - 1][j].equals(internationalOut.getClosed())) {
+                                sb.append(arrayPetitions[day - 1][j]);
+                            }
+                            sb.append("</td>");
+                            day++;
+                        }
+
+                    }
+                    sb.append("</tr>");
+                    day -= 7;
                 }
-                sb.append("</tr>");
-                day-=7;
             }
             day+=7;
             sb.append("</table></br>");
