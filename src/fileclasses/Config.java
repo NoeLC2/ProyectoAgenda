@@ -9,11 +9,11 @@ public class Config {
 		private String inputLang;
 		private String outputLang;
 		
-		public Config(Year year, Month month, String incomingLeng, String outgoinLeng) {
+		public Config(Year year, Month month, String inputLang, String outputLang) {
 	        this.year = year;
 	        this.month = month;
-	        this.inputLang = incomingLeng;
-	        this.outputLang = outgoinLeng;
+	        this.inputLang = inputLang;
+	        this.outputLang = outputLang;
 	    }
 
 		public Year getYear() {

@@ -9,16 +9,26 @@ import output.OutputLogIncidents;
 import readers.ConfigReader;
 import readers.InternationalReader;
 import readers.PetitionReader;
+
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.Month;
+import java.time.Year;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class main {
     public static void main(String[] args) {
-        Config config = ConfigReader.getConfig();
-        execute("FísicaHoraris", config);
+        long pre = LocalTime.now().toNanoOfDay();
+        //Config config = ConfigReader.getConfig();
+        Config config = new Config(Year.of(2019), Month.of(5), "ESP", "ENG");
+        execute("FísicaHoraris", config, 8, 20);
+        long post = LocalTime.now().toNanoOfDay();
+        System.out.println("Execution time: " + (post-pre)/1000000 + " ms");
     }
 
 
-    public static void execute(String filename, Config config){
+    public static void execute(String filename, Config config, int startTime, int endTime){
         //We we'll create every object that we'll need
         OutputLogIncidents.clearLog();
         List<Petition> petitions = PetitionReader.getPetitions(filename);
@@ -42,7 +52,7 @@ public class main {
             roomsAsSet.add(p.getRoom());
         }
         //Now we print an HTML file for each room name
-        roomsAsSet.forEach((e) -> { OutputHTML.generateHTML((e), internationalOut, internationalIn, SeparatePetitionsByRoom.getPetitions(processedPetitions, (e)), config); });
+        roomsAsSet.forEach((e) -> { OutputHTML.generateHTML((e), internationalOut, internationalIn, SeparatePetitionsByRoom.getPetitions(processedPetitions, (e)), config, startTime, endTime); });
         OutputLogIncidents.writeSuccessfulPetitions(petitions, processedPetitions);
     }
 }
