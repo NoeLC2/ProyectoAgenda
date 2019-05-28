@@ -16,9 +16,9 @@ import java.util.*;
 
 public class OutputHTML {
     public static void generateHTML(String room, International internationalOut, International internationalIn,
-                                    List<ProcessedPetition> processedPetitions, Config config, int startTime, int endTime){
+                                    List<ProcessedPetition> processedPetitions, Config config, int startTime, int endTime, boolean allowClosedCollision){
 
-        String[][] arrayPetitions = CreateArrayPetitions.getArray(processedPetitions, config, internationalOut, internationalIn, true);
+        String[][] arrayPetitions = CreateArrayPetitions.getArray(processedPetitions, config, internationalOut, internationalIn, allowClosedCollision);
 
         int month = config.getMonth().getValue();
         int year = config.getYear().getValue();
@@ -60,7 +60,8 @@ public class OutputHTML {
         sb.append("<link href=\"https://fonts.googleapis.com/css?family=Didact+Gothic&display=swap\" rel=\"stylesheet\">");
         sb.append("<style>div{margin-left: 80vw;margin-top: 10px; background-color:#e4e9f3; padding-left: 10px; padding-bottom: 5px; width: 100px; " +
                 "position: absolute; line-height: 1px;}td{text-align: center; vertical-align: middle;}h1{color: #333333;font-family: " +
-                "'Didact Gothic', sans-serif;}td{height:2em}table, th, td {border: 1px solid black;border-collapse: collapse;width:80vw;margin-left:auto;margin-right:auto;}</style>");
+                "'Didact Gothic', sans-serif;}td{height:2em}table{table-layout: fixed;width:80vw;transition:0.5s}table:hover{box-shadow: 3px 5px #3f3f3f}table," +
+                " th, td {border: 1px solid black;border-collapse: collapse;margin-left:auto;margin-right:auto;}</style>");
         sb.append("</head>");
         sb.append("<body bgcolor=\"MintCream\">");
         sb.append("<div><p>" + internationalOut.getClosed() + ": <span style=\"color: grey; font-size: 1.5em\">■</span></p><p>" + internationalOut.getAvailable() +
@@ -144,7 +145,7 @@ public class OutputHTML {
         sb.append("</html>");
         FileWriter fstream = null;
         try {
-            fstream = new FileWriter(room + ".html");
+            fstream = new FileWriter("HTMLOutputFiles/" + room + internationalOut.getMonths()[month-1] + ".html");
             BufferedWriter out = new BufferedWriter(fstream);
             out.write(sb.toString());
             out.close();
