@@ -5,7 +5,9 @@ import fileclasses.Config;
 import fileclasses.International;
 import fileclasses.ProcessedPetition;
 
+import java.awt.*;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.*;
@@ -13,6 +15,7 @@ import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
 import java.util.*;
+import java.util.List;
 
 public class OutputHTML {
     public static void generateHTML(String room, International internationalOut, International internationalIn,
@@ -59,7 +62,7 @@ public class OutputHTML {
         sb.append("</title>");
         sb.append("<link href=\"https://fonts.googleapis.com/css?family=Didact+Gothic&display=swap\" rel=\"stylesheet\">");
         sb.append("<style>div{margin-left: 80vw;margin-top: 10px; background-color:#e4e9f3; padding-left: 10px; padding-bottom: 5px; width: 100px; " +
-                "position: absolute; line-height: 1px;}td{text-align: center; vertical-align: middle;}h1{color: #333333;font-family: " +
+                "position: absolute; line-height: 1px;}td{text-align: center; vertical-align: middle;}h1, table, p{color: #333333;font-family: " +
                 "'Didact Gothic', sans-serif;}td{height:2em}table{table-layout: fixed;width:80vw;transition:0.5s}table:hover{box-shadow: 3px 5px #3f3f3f}table," +
                 " th, td {border: 1px solid black;border-collapse: collapse;margin-left:auto;margin-right:auto;}</style>");
         sb.append("</head>");
@@ -126,7 +129,6 @@ public class OutputHTML {
                             sb.append("</td>");
                             day++;
                         }
-
                     }
                     sb.append("</tr>");
                     day -= 7;
@@ -149,6 +151,7 @@ public class OutputHTML {
             BufferedWriter out = new BufferedWriter(fstream);
             out.write(sb.toString());
             out.close();
+            Desktop.getDesktop().open(new File("HTMLOutputFiles/" + room + internationalOut.getMonths()[month-1] + ".html"));
         } catch (IOException e) {
             e.printStackTrace();
         }

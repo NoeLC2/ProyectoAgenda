@@ -19,7 +19,7 @@ public class PetitionReader {
 
         List<Petition> petitions = Collections.emptyList();
 
-        File file = new File(petitionFile + ".txt");
+        File file = new File( "Petitions/" + petitionFile + ".txt");
 
         try(Scanner sc = new Scanner(file)) {
             petitions = new ArrayList<>();

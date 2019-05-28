@@ -9,7 +9,7 @@ import java.util.List;
 
 
 public class OutputLogIncidents {
-    private static final String FILENAME = "incidencias.log";
+    private static final String FILENAME = "HTMLOutputFiles/incidencias.log";
 
     public static void clearLog(){
         PrintWriter writer = null;
