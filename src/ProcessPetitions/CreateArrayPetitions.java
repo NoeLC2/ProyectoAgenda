@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class CreateArrayPetitions {
-    public static String[][] getArray(List<ProcessedPetition> processedPetitions, Config config, International internationalOut, International internationalIn){
+    public static String[][] getArray(List<ProcessedPetition> processedPetitions, Config config, International internationalOut, International internationalIn, boolean allowClosedCollision){
         //We have a matrix of 31*24, 31 because that's the maximum number of days
         // in a month and 24 because we have 24 time zones
         String[][] arraySchedules = new String[31][24];
@@ -36,9 +36,10 @@ public class CreateArrayPetitions {
                 for (LocalDate day : daysMonth) {
                     List<Integer> hours = petition.getHours();
                     for (Integer hour : hours) {
-                        if (arraySchedules[day.getDayOfMonth() - 1][hour] != null && !isLogged) {
+                        if (arraySchedules[day.getDayOfMonth() - 1][hour] != null && !isLogged &&
+                                arraySchedules[day.getDayOfMonth() - 1][hour].equals(internationalOut.getClosed())!=allowClosedCollision) {
                             isLogged = true;
-                            OutputLogIncidents.writeConflict("OverlappingEvents", petition);
+                            OutputLogIncidents.writeOverlappingConflict(petition, arraySchedules[day.getDayOfMonth() - 1][hour]);
                         }
                     }
                 }
@@ -46,7 +47,9 @@ public class CreateArrayPetitions {
                     for (LocalDate day2 : daysMonth) {
                         List<Integer> hours2 = petition.getHours();
                         for (Integer hour2 : hours2) {
-                            arraySchedules[day2.getDayOfMonth() - 1][hour2] = petition.getActivity();
+                            if(arraySchedules[day2.getDayOfMonth() - 1][hour2] == null) {
+                                arraySchedules[day2.getDayOfMonth() - 1][hour2] = petition.getActivity();
+                            }
                         }
                     }
                 }

@@ -13,21 +13,23 @@ import java.util.List;
 import java.util.Scanner;
 
 public class PetitionReader {
-    public static List<Petition> getPetitions(){
+    public static List<Petition> getPetitions(String petitionFile){
         //Por comodidad usamos la misma estructura que el lector 
     	//de coches que hicimos de ejemplo
 
         List<Petition> petitions = Collections.emptyList();
 
-        File file = new File("peticions.txt");
+        File file = new File( "Petitions/" + petitionFile + ".txt");
 
         try(Scanner sc = new Scanner(file)) {
             petitions = new ArrayList<>();
             while(sc.hasNextLine()) {
                 String line = sc.nextLine();
-                Petition petition = createPetition(line);
-                if (petition != null) {
-                    petitions.add(petition);
+                if(!line.substring(0,1).equals("#")) {
+                    Petition petition = createPetition(line);
+                    if (petition != null) {
+                        petitions.add(petition);
+                    }
                 }
             }
 
@@ -46,7 +48,7 @@ public class PetitionReader {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         String activity = dataArray[ACTIVITY];
-        activity=activity.replaceAll("([^_])([A-Z])", "$1 $2");
+        activity= activity.substring(0,1) + activity.substring(1).replaceAll("((?<=\\p{Ll})\\p{Lu})|((?!\\A)\\p{Lu}(?>\\p{Ll}))", " $0").toLowerCase();
         String room = dataArray[ROOM];
 
         //Throw exception in case the date format is incorrect
@@ -67,7 +69,7 @@ public class PetitionReader {
             OutputLogIncidents.writeConflict("TooManyTimePeriods", petition);
             return null;
         }else if(endDate.isBefore(startDate)){
-            OutputLogIncidents.writeConflict("wrongDateFormat", petition);
+            OutputLogIncidents.writeConflict("conflictingDates", petition);
             return null;
         }
         else {

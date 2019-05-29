@@ -3,26 +3,25 @@ package output;
 import ProcessPetitions.CreateArrayPetitions;
 import fileclasses.Config;
 import fileclasses.International;
-import fileclasses.Petition;
 import fileclasses.ProcessedPetition;
-import readers.PetitionReader;
 
+import java.awt.*;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalField;
 import java.time.temporal.WeekFields;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.Locale;
-import java.util.Set;
 
 public class OutputHTML {
-    public static void generateHTML(String room, International internationalOut, International internationalIn, List<ProcessedPetition> processedPetitions, Config config){
+    public static void generateHTML(String room, International internationalOut, International internationalIn,
+                                    List<ProcessedPetition> processedPetitions, Config config, int startTime, int endTime, boolean allowClosedCollision){
 
-        String[][] arrayPetitions = CreateArrayPetitions.getArray(processedPetitions, config, internationalOut, internationalIn);
+        String[][] arrayPetitions = CreateArrayPetitions.getArray(processedPetitions, config, internationalOut, internationalIn, allowClosedCollision);
 
         int month = config.getMonth().getValue();
         int year = config.getYear().getValue();
@@ -30,7 +29,6 @@ public class OutputHTML {
         YearMonth yearMonth = YearMonth.of(year, month);
         int daysInMonth = yearMonth.lengthOfMonth();
 
-        //muy cutre
         LocalDate localDate = LocalDate.of(year, month, 01);
         LocalDate localDate2 =  LocalDate.of(year, month, 01).plusMonths(1);
 
@@ -47,18 +45,35 @@ public class OutputHTML {
 
         String[] weekDays = internationalOut.getWeekDays();
 
+        //This is just so I can have different colors for each activity
+        Set<String> activitiesAsSet = new TreeSet<String>();
+        for (ProcessedPetition p : processedPetitions) {
+            if(!p.getActivity().equals(internationalOut.getClosed()))
+                activitiesAsSet.add(p.getActivity());
+        }
+        String[] colors = {"Cornsilk", "LightSkyBlue", "LightPink", "Thistle", "MediumTurquoise", "LightSteelBlue", "LightSalmon", "MOCCASIN", "LIGHTCYAN"};
+
+
+        //We'll create the HTML file with a StringBuilder, which we will pass to a FileWriter later
         StringBuilder sb = new StringBuilder();
         sb.append("<html>");
         sb.append("<head>");
         sb.append("<title>" + internationalOut.getTitle() + " " + room.replaceAll("([^_])([1-9])", "$1 $2") + " " + internationalOut.getMonths()[month-1] + " " + year);
         sb.append("</title>");
-        sb.append("<style>td{text-align: center; vertical-align: middle;}table, th, td {border: 1px solid gray;}</style>");
+        sb.append("<link href=\"https://fonts.googleapis.com/css?family=Didact+Gothic&display=swap\" rel=\"stylesheet\">");
+        sb.append("<style>div{margin-left: 80vw;margin-top: 10px; background-color:#e4e9f3; padding-left: 10px; padding-bottom: 5px; width: 100px; " +
+                "position: absolute; line-height: 1px;}td{text-align: center; vertical-align: middle;}h1, table, p{color: #333333;font-family: " +
+                "'Didact Gothic', sans-serif;}td{height:2em}table{table-layout: fixed;width:80vw;transition:0.5s}table:hover{box-shadow: 3px 5px #3f3f3f}table," +
+                " th, td {border: 1px solid black;border-collapse: collapse;margin-left:auto;margin-right:auto;}</style>");
         sb.append("</head>");
         sb.append("<body bgcolor=\"MintCream\">");
-        sb.append("<h1 align=\"center\">" + room.replaceAll("([^_])([1-9])", "$1 $2") + "</h1>");
-        sb.append("<h1 align=\"center\">" + internationalOut.getTitle() + " " + internationalOut.getMonths()[month-1] + " " + year + "</h1>");
+        sb.append("<div><p>" + internationalOut.getClosed() + ": <span style=\"color: grey; font-size: 1.5em\">■</span></p><p>" + internationalOut.getAvailable() +
+                ": <span style=\"color: lightgreen; font-size: 1.5em\">■</span></p></div>");
+        sb.append("<h1 align=\"center\">" + room.replaceAll("([^_])([1-9])", "$1 $2").toUpperCase() + "</h1>");
+        sb.append("<h1 align=\"center\">" + internationalOut.getTitle() + " " + internationalOut.getMonths()[month-1] + " " + year + "</h1><br>");
+        //We create all the tables we need for this month (one for each week)
         for(int m=0;m<=numberOfWeeks;m++){
-            sb.append("<table bgcolor=\"Lavender\" width=\"100%\" border=\"1\" style=\"width:100%\"><tr>");
+            sb.append("<table bgcolor=\"Lavender\" border=\"1\"><tr>");
             for(int i=-1;i<weekDays.length;i++){
                 sb.append("<th bgcolor=\"PowderBlue\">");
                 if(i==-1){
@@ -81,39 +96,43 @@ public class OutputHTML {
 
                 sb.append("</th>");
             }
-            for(int j=0;j<24;j++){
-                sb.append("<tr>");
-                for(int k=-1;k<weekDays.length;k++){
-                    if(k==-1){
-                        sb.append("<td width=\"12.5%\">");
-                        sb.append(j + "-" + (j+1) + "h");
-                        sb.append("</td>");
-                    } else {
-                        sb.append("<td width=\"12.5%\"");
-                        if (day <= 0 || day > daysInMonth) {
-                            sb.append(" bgcolor=\"lightgray\"");
-                        }
-                        else if(day>0 && arrayPetitions[day - 1][j]==null){
-                            sb.append("bgcolor=\"lightgreen\"");
-                        }
-                        else if(arrayPetitions[day - 1][j].equals(internationalOut.getClosed())){
-                            sb.append(" bgcolor=\"grey\"");
-                        }else{
-                            sb.append(" bgcolor=\"lightblue\"");
-                            //int num = arrayPetitions[day - 1][j].charAt(arrayPetitions[day - 1][j].length()-1);
-                            //sb.append(" style=\"backgroundcolor:(" + 255 + "," + 255 + "," + 255 + ")\"");
-                        }
-                        sb.append(">");
-                        if (day > 0 && day <= daysInMonth && arrayPetitions[day - 1][j]!=null) {
-                            sb.append(arrayPetitions[day - 1][j]);
-                        }
-                        sb.append("</td>");
-                        day++;
-                    }
 
+            for(int j=0;j<24;j++){
+                if(j>=startTime && j<endTime) {
+                    sb.append("<tr>");
+                    for (int k = -1; k < weekDays.length; k++) {
+                        if (k == -1) {
+                            sb.append("<td width=\"12.5%\">");
+                            sb.append(j + "-" + (j + 1) + "h");
+                            sb.append("</td>");
+                        } else {
+                            sb.append("<td width=\"12.5%\"");
+                            if (day <= 0 || day > daysInMonth) {
+                                sb.append(" bgcolor=\"lightgray\"");
+                            } else if (day > 0 && arrayPetitions[day - 1][j] == null) {
+                                sb.append("bgcolor=\"lightgreen\"");
+                            } else if (arrayPetitions[day - 1][j].equals(internationalOut.getClosed())) {
+                                sb.append(" bgcolor=\"grey\"");
+                            } else {
+                                if (colors.length >= activitiesAsSet.size()) {
+                                    sb.append(" bgcolor=\"" + colors[((TreeSet<String>) activitiesAsSet).headSet(arrayPetitions[day - 1][j]).size()] + "\"");
+                                } else {
+                                    sb.append(" bgcolor=\"lightblue\"");
+                                }
+                                //int num = arrayPetitions[day - 1][j].charAt(arrayPetitions[day - 1][j].length()-1);
+                                //sb.append(" style=\"backgroundcolor:(" + 255 + "," + 255 + "," + 255 + ")\"");
+                            }
+                            sb.append(">");
+                            if (day > 0 && day <= daysInMonth && arrayPetitions[day - 1][j] != null && !arrayPetitions[day - 1][j].equals(internationalOut.getClosed())) {
+                                sb.append(arrayPetitions[day - 1][j]);
+                            }
+                            sb.append("</td>");
+                            day++;
+                        }
+                    }
+                    sb.append("</tr>");
+                    day -= 7;
                 }
-                sb.append("</tr>");
-                day-=7;
             }
             day+=7;
             sb.append("</table></br>");
@@ -122,15 +141,17 @@ public class OutputHTML {
         sb.append("<h4>" + internationalOut.getGeneratedBy() + ": " + System.getProperty("user.name") + "</h4>");
         LocalDateTime dateTime = LocalDateTime.now();
         sb.append("<h4>" + dateTime.getDayOfMonth() + " " + internationalOut.getMonths()[dateTime.getMonthValue()-1] +
-                " " + dateTime.getYear() + ", " + dateTime.getHour() + ":" + dateTime.getMinute() + ":" + dateTime.getSecond() + "</h4>");
+                " " + dateTime.getYear() + ", " + dateTime.toLocalTime().toString() + "</h4>");
+        sb.append("<h4><a href=\"incidencias.log\">" + internationalOut.getError() + " log</a></h4>");
         sb.append("</body>");
         sb.append("</html>");
         FileWriter fstream = null;
         try {
-            fstream = new FileWriter(room + ".html");
+            fstream = new FileWriter("HTMLOutputFiles/" + room + internationalOut.getMonths()[month-1] + ".html");
             BufferedWriter out = new BufferedWriter(fstream);
             out.write(sb.toString());
             out.close();
+            Desktop.getDesktop().open(new File("HTMLOutputFiles/" + room + internationalOut.getMonths()[month-1] + ".html"));
         } catch (IOException e) {
             e.printStackTrace();
         }

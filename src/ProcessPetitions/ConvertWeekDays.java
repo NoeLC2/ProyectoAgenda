@@ -1,10 +1,7 @@
 package ProcessPetitions;
 
-import fileclasses.Config;
 import fileclasses.International;
 import fileclasses.Petition;
-import readers.ConfigReader;
-import readers.PetitionReader;
 
 import java.time.DayOfWeek;
 import java.util.ArrayList;

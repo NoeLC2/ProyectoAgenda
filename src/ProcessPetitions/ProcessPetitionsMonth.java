@@ -8,6 +8,7 @@ import fileclasses.ProcessedPetition;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.Year;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,19 +18,22 @@ import java.util.stream.IntStream;
 
 public class ProcessPetitionsMonth {
     public static ProcessedPetition getProcessedPetitions(Config config, Petition petition, International international){
-        Month month = config.getMonth();
-        List<LocalDate> allDatesBetween = getDatesBetween(petition.getStartDate(), petition.getEndDate());
+        int month = config.getMonth().getValue();
+        int year = config.getYear().getValue();
         List<DayOfWeek> weekDays = ConvertWeekDays.convert(petition, international);
+        List<LocalDate> allDatesBetween = getDatesBetween(petition.getStartDate(), petition.getEndDate(), weekDays, month, year);
 
-        for (Iterator<LocalDate> iter = allDatesBetween.listIterator(); iter.hasNext(); ) {
+
+        /*for (Iterator<LocalDate> iter = allDatesBetween.listIterator(); iter.hasNext(); ) {
             LocalDate date = iter.next();
-            if(date.getMonth() != month){
+            //Why the hell does getMonth() return a Month but getYear() returns an int??
+            if(date.getMonth() != month || date.getYear() != year){
                 iter.remove();
             }
             else if(!weekDays.contains(date.getDayOfWeek())){
                 iter.remove();
             }
-        }
+        }*/
 
         if(allDatesBetween.isEmpty()){
             return null;
@@ -43,12 +47,18 @@ public class ProcessPetitionsMonth {
 
     }
 
-    public static List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate) {
-        //Stackoverflow
+    public static List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate, List<DayOfWeek> weekDays, int month, int year) {
         List<LocalDate> totalDates = new ArrayList<>();
-        while (startDate.isBefore(endDate.plusDays(1))) {
-            totalDates.add(startDate);
-            startDate = startDate.plusDays(1);
+        LocalDate monthStartDate = LocalDate.of(year, month, 01).minusDays(1);
+        LocalDate monthEndDate = LocalDate.of(year, month, 01).plusMonths(1);
+        if(startDate.isBefore(monthEndDate) && monthStartDate.isBefore(endDate)){
+            LocalDate iterDate = monthStartDate;
+            while (iterDate.isBefore(monthEndDate)) {
+                if(iterDate.isBefore(endDate.plusDays(1)) && iterDate.isAfter(startDate.minusDays(1)) && weekDays.contains(iterDate.getDayOfWeek())) {
+                    totalDates.add(iterDate);
+                }
+                iterDate = iterDate.plusDays(1);
+            }
         }
 
         return totalDates;
