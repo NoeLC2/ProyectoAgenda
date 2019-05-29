@@ -1,16 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="96c1a71f-c3ef-446a-acf1-f243311a89bc" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Aula42G.html" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/HTMLOutputFiles/Aula42GAbril.html" beforeDir="false" afterPath="$PROJECT_DIR$/HTMLOutputFiles/Aula42GAbril.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config.txt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internacional.CAT" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internacional.ENG" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/internacional.ESP" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/readers/ConfigReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/readers/ConfigReader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/readers/InternationalReader.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/readers/InternationalReader.java" afterDir="false" />
-    </list>
+    <list default="true" id="96c1a71f-c3ef-446a-acf1-f243311a89bc" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/out/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,6 +24,15 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/Petitions/FísicaHoraris.txt">
+          <provider selected="true" editor-type-id="text-editor">
+            <state>
+              <caret column="61" lean-forward="true" selection-start-column="61" selection-end-column="61" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/readers/InternationalReader.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="132">
@@ -92,7 +92,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="7">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="85" />
     <option name="y" value="25" />
     <option name="width" value="1750" />
@@ -111,6 +111,11 @@
             <path>
               <item name="ProyectoAgenda" type="b2602c69:ProjectViewProjectNode" />
               <item name="ProyectoAgenda" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="ProyectoAgenda" type="b2602c69:ProjectViewProjectNode" />
+              <item name="ProyectoAgenda" type="462c0819:PsiDirectoryNode" />
+              <item name="ConfigIntFiles" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="ProyectoAgenda" type="b2602c69:ProjectViewProjectNode" />
@@ -329,7 +334,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Petitions/FísicaHoraris.txt" />
     <entry file="file://$PROJECT_DIR$/src/ProcessPetitions/CreateArrayPetitions.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="640">
@@ -390,13 +394,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/main.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="26" column="46" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/readers/ConfigReader.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="220">
@@ -408,6 +405,23 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="132">
           <caret line="13" column="60" selection-start-line="13" selection-start-column="60" selection-end-line="13" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/ConfigIntFiles/config.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="198">
+          <caret line="26" column="46" selection-start-line="26" selection-start-column="46" selection-end-line="26" selection-end-column="46" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Petitions/FísicaHoraris.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state>
+          <caret column="61" lean-forward="true" selection-start-column="61" selection-end-column="61" />
         </state>
       </provider>
     </entry>
