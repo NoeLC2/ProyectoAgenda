@@ -11,7 +11,7 @@ import fileclasses.International;
 
 public class InternationalReader {
 
-    private static final String FILE_NAME = "internacional";
+    private static final String FILE_NAME = "ConfigIntFiles/internacional";
 	
 	public static International getInternacional(String language){
 
