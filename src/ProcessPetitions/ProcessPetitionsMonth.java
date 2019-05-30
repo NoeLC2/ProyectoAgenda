@@ -23,18 +23,6 @@ public class ProcessPetitionsMonth {
         List<DayOfWeek> weekDays = ConvertWeekDays.convert(petition, international);
         List<LocalDate> allDatesBetween = getDatesBetween(petition.getStartDate(), petition.getEndDate(), weekDays, month, year);
 
-
-        /*for (Iterator<LocalDate> iter = allDatesBetween.listIterator(); iter.hasNext(); ) {
-            LocalDate date = iter.next();
-            //Why the hell does getMonth() return a Month but getYear() returns an int??
-            if(date.getMonth() != month || date.getYear() != year){
-                iter.remove();
-            }
-            else if(!weekDays.contains(date.getDayOfWeek())){
-                iter.remove();
-            }
-        }*/
-
         if(allDatesBetween.isEmpty()){
             return null;
         } else{
@@ -42,9 +30,6 @@ public class ProcessPetitionsMonth {
             ProcessedPetition processedPetition = new ProcessedPetition(petition.getActivity(), petition.getRoom(), petition.getStartDate(), petition.getEndDate(), petition.getWeekDays(), petition.getSchedule(), allDatesBetween, hours);
             return processedPetition;
         }
-
-
-
     }
 
     public static List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate, List<DayOfWeek> weekDays, int month, int year) {
