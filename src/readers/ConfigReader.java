@@ -14,7 +14,7 @@ public class ConfigReader {
 
 		Config config = null;
 		
-		File file = new File("config.txt");
+		File file = new File("ConfigIntFiles/config.txt");
 		
 		try(Scanner sc = new Scanner(file)) {
 			String line1 = sc.nextLine();
