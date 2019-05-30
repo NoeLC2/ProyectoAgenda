@@ -142,16 +142,16 @@ public class OutputHTML {
         LocalDateTime dateTime = LocalDateTime.now();
         sb.append("<h4>" + dateTime.getDayOfMonth() + " " + internationalOut.getMonths()[dateTime.getMonthValue()-1] +
                 " " + dateTime.getYear() + ", " + dateTime.toLocalTime().toString() + "</h4>");
-        sb.append("<h4><a href=\"incidencias.log\">" + internationalOut.getError() + " log</a></h4>");
+        sb.append("<h4><a href=\"incidencias.log\" target=\"_blank\">" + internationalOut.getError() + " log</a></h4>");
         sb.append("</body>");
         sb.append("</html>");
         FileWriter fstream = null;
         try {
-            fstream = new FileWriter("HTMLOutputFiles/" + room + internationalOut.getMonths()[month-1] + ".html");
+            fstream = new FileWriter("HTMLOutputFiles/" + room + internationalOut.getMonths()[month-1] + year + ".html");
             BufferedWriter out = new BufferedWriter(fstream);
             out.write(sb.toString());
             out.close();
-            Desktop.getDesktop().open(new File("HTMLOutputFiles/" + room + internationalOut.getMonths()[month-1] + ".html"));
+            Desktop.getDesktop().open(new File("HTMLOutputFiles/" + room + internationalOut.getMonths()[month-1] + year + ".html"));
         } catch (IOException e) {
             e.printStackTrace();
         }
