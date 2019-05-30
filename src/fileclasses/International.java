@@ -1,14 +1,9 @@
 package fileclasses;
 
 public class International {
-    private String title;
-    private String[] weekDays;
-    private String abbreviatedWeekDays;
-    private String[] months;
-    private String[] timeWords;
-    private String generatedBy;
-    private String closed;
-    private String error;
+	private int id;
+	private String value;
+	private String result;
 
     public International(String title, String[] weekDays, String abbreviatedWeekDays, String[] months, String[] timeWords, String generatedBy, String closed, String error) {
         this.title = title;

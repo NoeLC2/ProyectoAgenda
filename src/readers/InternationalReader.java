@@ -22,27 +22,19 @@ public class InternationalReader {
 	    File file = new File(FILE_NAME + "." + language);
 		
 		try(Scanner sc = new Scanner(file)) {
-
-		    List<Object> data = new ArrayList<>();
-		    for(int i = 0; i<8; i++){
-                String line = sc.nextLine();
-                String[] dataInfo = line.split(";");
-                if(dataInfo[1].indexOf(",") == -1){
-                    data.add(dataInfo[1].trim());
-                } else{
-                    data.add(dataInfo[1].split(","));
-                }
-
-            }
-
-            international = new International((String) data.get(0), (String[]) data.get(1), (String) data.get(2), (String[]) data.get(3),(String[]) data.get(4), (String) data.get(5), (String) data.get(6), (String) data.get(7));
-            //international = new International(title, weekDays, weekDaysAbbr, months, timeWords, generatedBy, closed, error);
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        return international;
+			String line1 = sc.nextLine();
+			String[] result = line1.split(";");
+			int id = Integer.valueOf(result[0]);
+			String value1 = line1[1];
+		
+			
+			String line2 = sc.nextLine();
+			String[] result2 = line2.split(";");
+			int id = result[0];
+			String value2 = result2[1];
+			String value3 = result3[2];
+		}
+		return null;
 		
 	}
 }
