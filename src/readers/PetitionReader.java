@@ -12,8 +12,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Scanner;
 
-public class PetitionReader {
-    public static List<Petition> getPetitions(String petitionFile){
+public interface PetitionReader {
+    static List<Petition> getPetitions(String petitionFile){
         //Por comodidad usamos la misma estructura que el lector 
     	//de coches que hicimos de ejemplo
 
@@ -40,7 +40,7 @@ public class PetitionReader {
         return petitions;
     }
 
-    private static Petition createPetition(String line) {
+    static Petition createPetition(String line) {
 
         final byte ACTIVITY=0, ROOM=1, STARTDATE=2, ENDDATE=3, WEEKDAYS=4, SCHEDULE=5;
 

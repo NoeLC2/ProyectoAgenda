@@ -17,8 +17,8 @@ import java.time.temporal.WeekFields;
 import java.util.*;
 import java.util.List;
 
-public class OutputHTML {
-    public static void generateHTML(String room, International internationalOut, International internationalIn,
+public interface OutputHTML {
+    static void generateHTML(String room, International internationalOut, International internationalIn,
                                     List<ProcessedPetition> processedPetitions, Config config, int startTime, int endTime, boolean allowClosedCollision){
 
         String[][] arrayPetitions = CreateArrayPetitions.getArray(processedPetitions, config, internationalOut, internationalIn, allowClosedCollision);
@@ -97,8 +97,7 @@ public class OutputHTML {
                 sb.append("</th>");
             }
 
-            for(int j=0;j<24;j++){
-                if(j>=startTime && j<endTime) {
+            for(int j=startTime;j<endTime;j++){
                     sb.append("<tr>");
                     for (int k = -1; k < weekDays.length; k++) {
                         if (k == -1) {
@@ -132,7 +131,6 @@ public class OutputHTML {
                     }
                     sb.append("</tr>");
                     day -= 7;
-                }
             }
             day+=7;
             sb.append("</table></br>");

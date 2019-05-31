@@ -9,11 +9,11 @@ import java.util.Scanner;
 import fileclasses.Config;
 import fileclasses.International;
 
-public class InternationalReader {
+public interface InternationalReader {
 
-    private static final String FILE_NAME = "ConfigIntFiles/internacional";
+    String FILE_NAME = "ConfigIntFiles/internacional";
 	
-	public static International getInternacional(String language){
+	static International getInternacional(String language){
 
 
 

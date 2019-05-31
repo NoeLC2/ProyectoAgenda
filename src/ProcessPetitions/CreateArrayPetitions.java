@@ -9,8 +9,8 @@ import readers.InternationalReader;
 import java.time.LocalDate;
 import java.util.List;
 
-public class CreateArrayPetitions {
-    public static String[][] getArray(List<ProcessedPetition> processedPetitions, Config config, International internationalOut, International internationalIn, boolean allowClosedCollision){
+public interface CreateArrayPetitions {
+    static String[][] getArray(List<ProcessedPetition> processedPetitions, Config config, International internationalOut, International internationalIn, boolean allowClosedCollision){
         //We have a matrix of 31*24, 31 because that's the maximum number of days
         // in a month and 24 because we have 24 time zones
         String[][] arraySchedules = new String[31][24];

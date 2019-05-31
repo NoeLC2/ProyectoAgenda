@@ -5,8 +5,8 @@ import fileclasses.ProcessedPetition;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SeparatePetitionsByRoom {
-    public static List<ProcessedPetition> getPetitions(List<ProcessedPetition> petitions, String room){
+public interface SeparatePetitionsByRoom {
+    static List<ProcessedPetition> getPetitions(List<ProcessedPetition> petitions, String room){
         List<ProcessedPetition> petitionsInRoom = new ArrayList<>();
         for(ProcessedPetition petition : petitions){
             if(petition.getRoom().equals(room)){

@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class ProcessPetitionsMonth {
-    public static ProcessedPetition getProcessedPetitions(Config config, Petition petition, International international){
+public interface ProcessPetitionsMonth {
+    static ProcessedPetition getProcessedPetitions(Config config, Petition petition, International international){
         int month = config.getMonth().getValue();
         int year = config.getYear().getValue();
         List<DayOfWeek> weekDays = ConvertWeekDays.convert(petition, international);
@@ -32,7 +32,7 @@ public class ProcessPetitionsMonth {
         }
     }
 
-    public static List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate, List<DayOfWeek> weekDays, int month, int year) {
+    static List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate, List<DayOfWeek> weekDays, int month, int year) {
         List<LocalDate> totalDates = new ArrayList<>();
         LocalDate monthStartDate = LocalDate.of(year, month, 01).minusDays(1);
         LocalDate monthEndDate = LocalDate.of(year, month, 01).plusMonths(1);
@@ -49,7 +49,7 @@ public class ProcessPetitionsMonth {
         return totalDates;
     }
 
-    public static List<Integer> getSchedule(Petition petition){
+    static List<Integer> getSchedule(Petition petition){
         List<Integer> listOfTimePeriods = new ArrayList<>();
         String[] timePeriods = petition.getSchedule();
         for(String timePeriod : timePeriods){

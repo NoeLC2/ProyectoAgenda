@@ -7,7 +7,7 @@ import java.io.*;
 import java.util.Arrays;
 import java.util.List;
 
-
+//Can't have non final variables in an interface, so I'll leave it as a class
 public class OutputLogIncidents {
     private static final String FILENAME = "HTMLOutputFiles/incidencias.log";
 
