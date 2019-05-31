@@ -8,8 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ConvertWeekDays {
-    public static List<DayOfWeek> convert(Petition petition, International international) {
+public interface ConvertWeekDays {
+    static List<DayOfWeek> convert(Petition petition, International international) {
         String weekDays = petition.getWeekDays();
         List<DayOfWeek> arrayProcessedDays = new ArrayList<>();
 

@@ -16,24 +16,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
-public class ProcessPetitionsMonth {
-    public static ProcessedPetition getProcessedPetitions(Config config, Petition petition, International international){
+public interface ProcessPetitionsMonth {
+    static ProcessedPetition getProcessedPetitions(Config config, Petition petition, International international){
         int month = config.getMonth().getValue();
         int year = config.getYear().getValue();
         List<DayOfWeek> weekDays = ConvertWeekDays.convert(petition, international);
         List<LocalDate> allDatesBetween = getDatesBetween(petition.getStartDate(), petition.getEndDate(), weekDays, month, year);
-
-
-        /*for (Iterator<LocalDate> iter = allDatesBetween.listIterator(); iter.hasNext(); ) {
-            LocalDate date = iter.next();
-            //Why the hell does getMonth() return a Month but getYear() returns an int??
-            if(date.getMonth() != month || date.getYear() != year){
-                iter.remove();
-            }
-            else if(!weekDays.contains(date.getDayOfWeek())){
-                iter.remove();
-            }
-        }*/
 
         if(allDatesBetween.isEmpty()){
             return null;
@@ -42,12 +30,9 @@ public class ProcessPetitionsMonth {
             ProcessedPetition processedPetition = new ProcessedPetition(petition.getActivity(), petition.getRoom(), petition.getStartDate(), petition.getEndDate(), petition.getWeekDays(), petition.getSchedule(), allDatesBetween, hours);
             return processedPetition;
         }
-
-
-
     }
 
-    public static List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate, List<DayOfWeek> weekDays, int month, int year) {
+    static List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate, List<DayOfWeek> weekDays, int month, int year) {
         List<LocalDate> totalDates = new ArrayList<>();
         LocalDate monthStartDate = LocalDate.of(year, month, 01).minusDays(1);
         LocalDate monthEndDate = LocalDate.of(year, month, 01).plusMonths(1);
@@ -64,7 +49,7 @@ public class ProcessPetitionsMonth {
         return totalDates;
     }
 
-    public static List<Integer> getSchedule(Petition petition){
+    static List<Integer> getSchedule(Petition petition){
         List<Integer> listOfTimePeriods = new ArrayList<>();
         String[] timePeriods = petition.getSchedule();
         for(String timePeriod : timePeriods){

@@ -20,8 +20,8 @@ import java.util.*;
 public class main {
     public static void main(String[] args) {
         long pre = LocalTime.now().toNanoOfDay();
-        Config config = ConfigReader.getConfig();
-        //Config config = new Config(Year.of(2008), Month.of(10), "CAT", "ENG");
+        //Config config = ConfigReader.getConfig();
+        Config config = new Config(Year.of(2019), Month.of(5), "ESP", "ENG");
 
         //Petitions filename, Config object, start and end time for the tables, boolean allowClosedCollision
         execute("FísicaHoraris", config, 8, 20, true);

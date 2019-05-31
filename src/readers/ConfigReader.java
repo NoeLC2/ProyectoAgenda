@@ -8,9 +8,9 @@ import java.util.Scanner;
 
 import fileclasses.Config;
 
-public class ConfigReader {
+public interface ConfigReader {
 	
-	public static Config getConfig(){
+	static Config getConfig(){
 
 		Config config = null;
 		
