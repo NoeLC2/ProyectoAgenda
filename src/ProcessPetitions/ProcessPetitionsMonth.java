@@ -1,4 +1,4 @@
-package ProcessPetitions;
+package processpetitions;
 
 import fileclasses.Config;
 import fileclasses.International;
@@ -7,29 +7,26 @@ import fileclasses.ProcessedPetition;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.Month;
-import java.time.Year;
-import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public interface ProcessPetitionsMonth {
-    static ProcessedPetition getProcessedPetitions(Config config, Petition petition, International international){
+    static List<ProcessedPetition> getProcessedPetitions(Config config, List<Petition> petitions, International international){
         int month = config.getMonth().getValue();
         int year = config.getYear().getValue();
+        List<ProcessedPetition> processedPetitions = new ArrayList<>();
+        for(Petition petition:petitions){
         List<DayOfWeek> weekDays = ConvertWeekDays.convert(petition, international);
         List<LocalDate> allDatesBetween = getDatesBetween(petition.getStartDate(), petition.getEndDate(), weekDays, month, year);
 
-        if(allDatesBetween.isEmpty()){
-            return null;
-        } else{
+        if(!allDatesBetween.isEmpty()){
             List<Integer> hours = getSchedule(petition);
-            ProcessedPetition processedPetition = new ProcessedPetition(petition.getActivity(), petition.getRoom(), petition.getStartDate(), petition.getEndDate(), petition.getWeekDays(), petition.getSchedule(), allDatesBetween, hours);
-            return processedPetition;
+            ProcessedPetition processedPetition = new ProcessedPetition(petition.getActivity(), petition.getRoom(),
+                    petition.getStartDate(), petition.getEndDate(), petition.getWeekDays(), petition.getSchedule(), allDatesBetween, hours);
+            processedPetitions.add(processedPetition);
         }
+        }
+        return processedPetitions;
     }
 
     static List<LocalDate> getDatesBetween(LocalDate startDate, LocalDate endDate, List<DayOfWeek> weekDays, int month, int year) {

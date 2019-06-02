@@ -14,8 +14,6 @@ import java.util.Scanner;
 
 public interface PetitionReader {
     static List<Petition> getPetitions(String petitionFile){
-        //Por comodidad usamos la misma estructura que el lector 
-    	//de coches que hicimos de ejemplo
 
         List<Petition> petitions = Collections.emptyList();
 

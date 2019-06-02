@@ -1,5 +1,5 @@
-import ProcessPetitions.ProcessPetitionsMonth;
-import ProcessPetitions.SeparatePetitionsByRoom;
+import processpetitions.ProcessPetitionsMonth;
+import processpetitions.SeparatePetitionsByRoom;
 import fileclasses.Config;
 import fileclasses.International;
 import fileclasses.Petition;
@@ -10,18 +10,16 @@ import readers.ConfigReader;
 import readers.InternationalReader;
 import readers.PetitionReader;
 
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.Month;
 import java.time.Year;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 
-public class main {
+public class Main {
     public static void main(String[] args) {
         long pre = LocalTime.now().toNanoOfDay();
-        //Config config = ConfigReader.getConfig();
-        Config config = new Config(Year.of(2019), Month.of(5), "ESP", "ENG");
+        Config config = ConfigReader.getConfig();
+        //Config config = new Config(Year.of(2019), Month.of(5), "ESP", "ENG");
 
         //Petitions filename, Config object, start and end time for the tables, boolean allowClosedCollision
         execute("FísicaHoraris", config, 8, 20, true);
@@ -38,16 +36,8 @@ public class main {
 
         International internationalIn = InternationalReader.getInternacional(config.getInputLang());
         International internationalOut = InternationalReader.getInternacional(config.getOutputLang());
-        List<ProcessedPetition> processedPetitions = new ArrayList<>();
+        List<ProcessedPetition> processedPetitions = ProcessPetitionsMonth.getProcessedPetitions(config, petitions, internationalIn);
 
-        //We'll add all the petitions into the ArrayList
-        //I could have added them all in getProcessedPetitions, but I wanted to be able to print a specific
-        // petition here
-        for (Petition petition: petitions){
-            if(ProcessPetitionsMonth.getProcessedPetitions(config, petition, internationalIn) != null) {
-                processedPetitions.add(ProcessPetitionsMonth.getProcessedPetitions(config, petition, internationalIn));
-            }
-        }
 
         //We get a set of different room names
         Set<String> roomsAsSet = new HashSet<String>();

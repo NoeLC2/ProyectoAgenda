@@ -1,4 +1,4 @@
-package ProcessPetitions;
+package processpetitions;
 
 import fileclasses.ProcessedPetition;
 

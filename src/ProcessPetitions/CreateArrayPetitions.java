@@ -1,10 +1,9 @@
-package ProcessPetitions;
+package processpetitions;
 
 import fileclasses.Config;
 import fileclasses.International;
 import fileclasses.ProcessedPetition;
 import output.OutputLogIncidents;
-import readers.InternationalReader;
 
 import java.time.LocalDate;
 import java.util.List;
