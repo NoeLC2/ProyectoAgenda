@@ -72,7 +72,7 @@ public class OutputLogIncidents {
         write(sb);
     }
 
-    public static void write(StringBuilder sb){
+    static void write(StringBuilder sb){
         FileWriter fstream = null;
         try {
             fstream = new FileWriter(FILENAME, true);
