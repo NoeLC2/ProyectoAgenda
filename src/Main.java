@@ -29,7 +29,7 @@ public class Main {
     }
 
 
-    public static void execute(String filename, Config config, int startTime, int endTime, boolean allowClosedCollision){
+    static void execute(String filename, Config config, int startTime, int endTime, boolean allowClosedCollision){
         //We we'll create every object that we'll need
         OutputLogIncidents.clearLog();
         List<Petition> petitions = PetitionReader.getPetitions(filename);
